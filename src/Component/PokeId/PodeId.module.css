@@ -1,0 +1,68 @@
+.pokemon_card{
+    padding: 2rem;
+    display: flex;
+    margin: auto;
+}
+.pokemon_card p{
+    margin: 2rem auto;
+}
+
+.element{
+    width: 30%;
+    text-align: left;
+    font-weight: 400;
+}
+.container_element{
+height: 40px;
+}
+.container_element > span {
+    color: var(--psypink);
+    font-weight: bold;
+}
+.name{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    color: var(--black);
+}
+.name h1{
+    font-family: 'Poke Solid';
+}
+.types{
+    display: flex;
+    margin: auto;
+}
+.image_container {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    width: 40%
+}
+.image_front{
+    height : 100%; 
+    min-height : 200px;
+    max-width: 700px ;
+    margin: auto;
+}
+.image_container button{
+    width: 150px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+}
+.containerBtn{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 500px;
+    margin: auto;
+}
+.pokemon_types{
+    display: flex;
+    flex-direction: row;
+}
+.pokemon_types img{
+    margin-left: 20px;
+    margin-top: 20px;
+    height: 50px;
+}

@@ -1,0 +1,220 @@
+
+@font-face {
+  font-family: "Poke Hollow";
+  src: url('./assets/PokemonHollow.ttf');
+}
+@font-face {
+  font-family: "Poke Solid";
+  src: url('./assets/PokemonSolid.ttf');
+}
+:root {
+  font-family:  Inter, system-ui;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  --white: #DBD8B7;
+  --black: #191919;
+  --blackdracula: #2d3436;
+  --blue: #0984e3;
+  --lightblue: #74b9ff;
+  --darkbluegreen: #00cec9;
+  --lightbluegreen: #81ecec;
+  --darkgreen: #00b894;
+  --lightgreen: #55efc4;
+  --lightpurple: #a29bfe;
+  --poisonpurple: #4532d5;
+  --darkpurple: #6c5ce7;
+  --lightyellow: #ffeaa7;
+  --darkyellow: #fdcb6e;
+  --darkorange: #e17055;
+  --petouteorange: #ff8800;
+  --lightorange: #fab1a0;
+  --darkred: #d63031;
+  --lightred: #ff7675;
+  --pink: #fd79a8;
+  --psypink: #dd2766;
+  --grey: #636e72;
+  --lightgrey: #b2bec3;
+  --brown: #92501B ;
+  --lightbrown: #8a7d72 ;
+
+
+
+  color: var(--black);
+  background-color: var(--white);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  list-style-type: none;
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2.8em;
+  line-height: 1.1;
+  font-family: Poke Hollow;
+  color: var(--black);
+  
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--blue);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: var(--darkgreen);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: var(--white);
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+.pokedex_container{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px);
+  /* grid-column-gap: 30px; */
+  grid-row-gap: 50px;
+  padding: 3rem 0;
+  width: 100%;
+  justify-content: center;
+}
+
+.box{
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+  border: 1px solid rgb(245, 238, 238);
+  height: 300px;
+  width: 200px;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: #e9e7d294;
+  box-sizing: border-box;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+}
+.box:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -16px;
+  right: -16px;
+  background: #e9e7d294;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  transition: transform 0.35s ease-out;
+}
+.box:hover:before {
+  transform: scale(21);
+  background: red ;
+}
+.box:hover{
+  box-shadow: var(--lightgrey, 0.5) 0px 5px 15px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.wrapper
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+   transform: translate(-50%, -50%);
+
+}
+.ability span{
+  color: var(--psypink);
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.element-stat{
+  display: flex;
+  flex-direction: column;
+}
+.element-stat span{
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.pokeball {
+  width: 60px;
+  height: 60px;
+  background-color: #fff;
+  border-radius: 50% ;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid;
+  animation: frames .8s  linear 0s infinite;
+}
+
+.pokeball:after{
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 130px;
+  background-color: red;
+  border-bottom: 4px solid;
+  top: -4px
+}
+
+.pokeball:before{
+  content: '';
+  position: absolute;
+  background-color: #fff;
+  width: 10px;
+  height:10px;
+  border: 4px solid;
+  border-radius: 50%;
+  bottom: 18px;
+  right: 18px;
+  z-index: 1;
+}
+
+/* AnimationFrames */
+@keyframes frames{
+  0% {
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
