@@ -42,13 +42,13 @@ export default function Varieties({variety}) {
                   globalEventOff="click"
                   delayShow={600}
 				        />
-                  <img src={type?.image} alt={type?.label} />
+                  <img src={type?.image} alt={type?.label}  />
                   </div>
               }
             )}
              </div>
-       <img src={pokemonCurrent?.sprites.front_default} alt="" />
-       <img src={pokemonCurrent?.sprites.front_shiny} alt="" />
+       <img src={pokemonCurrent?.sprites.front_default} alt="" style={{height: '150px'}} />
+       <img src={pokemonCurrent?.sprites.front_shiny} alt=""  style={{height: '150px'}}/>
         </div>
   )
 }

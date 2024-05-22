@@ -46,14 +46,14 @@ export default function Header() {
     </div>
     }
     
-    <div>
+    <div className='text' >
       {location.pathname !== '/' &&
           <NavLink
           style={{color: 'black'}}
           onClick={()=>setmainInformationPokemonSelected()}
             to="/"
           >
-            Retour
+           &#8592;
             </NavLink>
           }
     </div>

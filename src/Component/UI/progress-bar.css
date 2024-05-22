@@ -9,14 +9,37 @@
 }
 
 .progress-bar {
- 	width: 350px;
+ 	width: 100%;
  	height: 30px;
  	border-radius: 50px;
  	border: 2px solid #666;
  	margin-bottom: 4px;
     background-color: #d3d3d3;
     text-align: center;
+	animation: progress 0.6s;
 }
+@keyframes progress{
+	from {
+		background-color: #ff0b4462;
+	}
+	to{
+		background-color: #d3d3d3;
+	}
+}
+@keyframes progressAnimationStrike {
+	from {
+	  width: 0;
+	  background: rgba(255, 0, 0, 0.888);
+	  box-shadow: inset 0 1px 2px rgb(255, 36, 36),
+		0 1px rgb(255, 10, 10);
+		
+	}
+	to {
+	  width: attr(value);
+	}
+  }
+  
+
 .range:before{
     content : '' attr(value);
     margin-left: 17%;
@@ -28,8 +51,10 @@
  	height: 100%;
     width: 100%;
  	border-radius: inherit;
- 	transition: width .3s ease-in;
+ 	transition: width .3s linear;
     text-align: center;
+	transition-property: width, background-color;
+	animation: progressAnimationStrike 2s;
 }
 
 .toggle-buttons button {
@@ -43,4 +68,12 @@
 .toggle-buttons button:hover {
  	color: white;
  	background: #666;
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
 }

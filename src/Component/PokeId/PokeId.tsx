@@ -11,9 +11,16 @@ import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { v4 as uuidv4 } from 'uuid';
 import Habitat from './Habitat.js';
 import Ability from './Ability.js';
-import ProgressBar from '../UI/ProgressBar.js';
+
 import Stats from './Stats.js';
 import Varieties from './Varieties.js';
+import Image from '../UI/Image.js';
+
+import {
+  flavor_text_entrie,
+  PokeType,
+  sprite} from '../../../type-pokemons.ts';
+
 
  function calculLabelByHeight (element : number) {
   if(element <= 0.99){
@@ -52,21 +59,23 @@ export default function PokeId() {
   } = UseMainContext();
 
   const {id} = useParams();
-  const [pokemon, setpokemon] = useState()
+  const [pokemon, setpokemon] = useState<PokeType | undefined>()
   console.log('🚀🐱 😻 --///** ~ file: PokeId.tsx:9 ~ PokeId ~ pokemon:', pokemon)
-  const [elementDescription, setelementDescription] = useState([]);
+  const [elementDescription, setelementDescription] = useState<[flavor_text_entrie | []]>([]);
   const [evolutions, setevolutions] = useState({});
-  const [officialArtWork, setofficialArtWork] = useState();
+  const [officialArtWork, setofficialArtWork] = useState<sprite | any>(undefined);
   const [isLoading, setisLoading] = useState(true);
-  function getFavoriteText (poke, idLanguage: string){
-    const txtFav = poke.flavor_text_entries.filter(txt => txt.language.name === idLanguage);
-    return txtFav.filter(x => x.version.name === "sword");
+  function getFavoriteText (poke: PokeType | any, idLanguage: string){
+
+    const txtFav = poke.flavor_text_entries.filter((txt:flavor_text_entrie )=> txt.language.name === idLanguage);
+    return txtFav.filter((x:flavor_text_entrie )=> x.version.name === "sword");
   }
  
   useEffect(()=>{
     axios.get(baseUrl+`pokemon-species/${id}`)
     .then(res =>{
       const poke = res.data
+      console.log('🚀🐱 😻 --///** ~ file: PokeId.tsx:77 ~ useEffect ~ poke:', poke)
       axios.get(baseUrl+`pokemon/${poke.id}`)
       .then(x => {
        return{
@@ -75,6 +84,7 @@ export default function PokeId() {
        }
       }).then(
         elementPoke => {
+          console.log('🚀🐱 😻 --///** ~ file: PokeId.tsx:86 ~ useEffect ~ elementPoke:', elementPoke)
           elementPoke.friendlyName = getNameInOtherLanguage(elementPoke,'fr')
           setisLoading(false);
           setpokemon(elementPoke);
@@ -131,19 +141,15 @@ useEffect(()=>{
                 >
                 <ReactTooltip
                   id={idV}
-                  backgroundColor="black"
-                  effect="solid"
                   place="bottom"
-                  globalEventOff="click"
-                  delayShow={600}
-				        />
+                  delayShow={600} />
                   <img src={type?.image} alt={type?.label} />
                   </div>
               }
             )}
              </div>
             <div>
-            {elementDescription.map((el,idx) => {
+            {elementDescription && elementDescription.map((el:flavor_text_entrie | any,idx) => {
             return <p key={idx}>{el.flavor_text}</p>
           })}
             </div>
@@ -151,26 +157,58 @@ useEffect(()=>{
            
         </div>
     {!isLoading && <div className={styles.pokemon_card}>
+    {pokemon &&
         <div className={styles.element}>
+        <span>Statistiques de bases</span>
+        <div className={styles.element_container}>
        <Stats stats={pokemon?.stats} color={color} />
-        {pokemon?.abilities.length !== 0 && 
+        {pokemon?.abilities?.length > 0 && 
         <>
          <h3>Talents</h3>
           {pokemon?.abilities.map((ability, i) => {
           return <Ability key={i} url={ability.ability.url} /> })}
         </>
         }
-       
-        </div>
+       </div>
+        </div>}
         <div className={styles.image_container}>
-          {isShinny && 
-          <img src={officialArtWork && officialArtWork[genre === 'female' ? 'front_shiny_female': 'front_shiny' ]} alt={pokemon?.friendlyName} className={styles.image_front}/>          
+        <div className={styles.image_container_boxes}>
+          {isShinny && genre === 'female' &&
+            <Image
+            className={styles.image_container_img}
+            placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+            errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+            src={officialArtWork && officialArtWork['front_shiny_female']}
+          />       
         }
-          {!isShinny && 
-          <img src={officialArtWork && officialArtWork[genre === 'female' ? 'front_female': 'front_default' ]} alt={pokemon?.friendlyName} className={styles.image_front}/>          
+          {isShinny && genre !== 'female' &&
+            <Image
+            className={styles.image_container_img}
+            placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+            errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+            src={officialArtWork && officialArtWork['front_shiny']}
+          />       
         }
+          {!isShinny && genre === 'female' &&
+            <Image
+            className={styles.image_container_img}
+            placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+            errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+            src={officialArtWork && officialArtWork['front_female' ]}
+          />        
+        }
+          {!isShinny && genre !== 'female' &&
+            <Image
+            className={styles.image_container_img}
+            placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+            errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+            src={officialArtWork && officialArtWork['front_default' ]}
+          />        
+        }
+        </div>
+
         <div className={styles.containerBtn}>
-        <button onClick={()=>handleChooseShiny()} style={{backgroundColor: isShinny ? 'var(--darkyellow)' : 'var(--blue)' }}>   <img src="https://raw.githubusercontent.com/msikma/pokesprite/master/misc/special-attribute/shiny-stars.png" alt="" height={'25px'} /></button>
+        <button onClick={()=>handleChooseShiny()} style={{backgroundColor: isShinny ? 'var(--darkyellow)' : 'var(--blue)' }}>   <img className={styles.imageBtn}src="https://raw.githubusercontent.com/msikma/pokesprite/master/misc/special-attribute/shiny-stars.png" alt="" height={'25px'} /></button>
       {
         pokemon?.has_gender_differences &&
         <button onClick={()=>setGenre(genre === 'female' ? 'normal': 'female')}> 
@@ -180,10 +218,11 @@ useEffect(()=>{
         </button>
       }
         </div>
-
         </div>
         <section className={styles.element}>
-        <h3>Caractéristiques</h3>
+        <span>Caractéristiques</span>
+        {pokemon && 
+        <div className={styles.element_container}>
           <div className={styles.container_element}><span>Taille :</span> {calculLabelByHeight(pokemon?.height / 10)}</div>
           <div className={styles.container_element}><span>Poids :</span> {calculLabelByWeight(pokemon?.weight / 10)}</div>
           <div className={styles.container_element}><span>Légendaire :</span> {pokemon?.is_legendary ? 'Oui' : 'Non'}</div>
@@ -192,13 +231,15 @@ useEffect(()=>{
           <div className={styles.container_element}><span>Bonheur de base:</span> {pokemon?.base_happiness}</div>
           <div className={styles.container_element}><span>Taux de capture:</span> {pokemon?.capture_rate}</div>
           {pokemon?.habitat !== null && <Habitat url={pokemon?.habitat.url}/> }
+        </div>
+      }
         </section>
              
     </div>}
-      <div>
+    {pokemon &&  <div>
         {pokemon?.varieties.filter(v => !v.is_default).map(variety => <Varieties key={variety.pokemon.name} variety={variety}></Varieties>)
         }
-      </div>
+      </div>}
       </div>
   )
 }

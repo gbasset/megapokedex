@@ -38,7 +38,7 @@
   --lightgrey: #b2bec3;
   --brown: #92501B ;
   --lightbrown: #8a7d72 ;
-
+  --t1: all 0.5s ease 0s;
 
 
   color: var(--black);
@@ -76,21 +76,22 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: var(--blue);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.25s linear;
 }
 button:hover {
-  border-color: var(--darkgreen);
+  border-color: var(--lightblue)  ;
+  opacity: 0.90;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 1px blue;
 }
 
 @media (prefers-color-scheme: light) {
@@ -104,6 +105,19 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+.text {
+  transition:all .4s ease;
+  font-size: 2.3rem;
+  background: linear-gradient(to bottom, transparent 62%, #ffffff 0) center center/0% 75% no-repeat;
+  padding: 10 6px 2px 6px;
+  cursor: pointer;
+}
+.text :hover{
+  /* font-family: Poke Solid; */
+   color: rgb(71, 71, 71);
+   font-size: 9rem;
+   padding: 100px
 }
 
 .pokedex_container{
