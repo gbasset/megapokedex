@@ -1,49 +1,57 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable no-inner-declarations */
-import React, { createContext, useState, useContext ,useEffect} from 'react';
+import React, { createContext, useState, useContext ,useEffect, ReactNode, ChangeEvent} from 'react';
 import {baseUrl} from '../utils/apiAndDatabase';
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
-export const context = createContext();
+import { PokeType,language } from '../../type-pokemons';
+export const context: any = createContext(null);
 
 export function UseMainContext() {
     return useContext(context);
 }
-export const ContextProvider = ({children}) => {
+type cxt = {
+    children : ReactNode;
+}
+export const ContextProvider = ({children}:cxt) => {
     const location = useLocation();
     const [scrollPosition, setScrollPosition] = useState(0);
 
     const [color, setcolor] = useState('normal');
     const [mainInformationPokemonSelected, setmainInformationPokemonSelected] = useState();
     const [pokemons, setPokemons] = useState([]);
-    const [pokemonsDetails, setpokemonsDetails] = useState([]);
+    const [pokemonsDetails, setpokemonsDetails] = useState<Array<PokeType>| []>([]);
 
     const [isLoading, setisLoading] = useState(true);
-	const [searchResults, setSearchResults] = useState([]);
+	const [searchResults, setSearchResults] = useState<Array<PokeType>>([]);
 
     const [genre, setGenre] = useState('normal');
     const [isShinny, setisShinny] = useState(false)
     const [searchTerm, setSearchTerm] = useState("");
-    const handleChange = event => {
-        setSearchTerm(event.target.value);
+    const handleChange = (event:ChangeEvent) => {
+        const target = event.target as HTMLTextAreaElement;
+        if(target){
+            setSearchTerm(target?.value);
+        }
       };
     function handleChooseShiny(){
         setisShinny(!isShinny);
     }
     useEffect(()=>{
         if(pokemonsDetails && searchTerm.length > 0){
-           const result =  pokemonsDetails.filter(pokemon => {
+           const result:Array<PokeType> =  pokemonsDetails.filter((pokemon:PokeType) => {
                 if(pokemon.name.toLowerCase().includes(searchTerm)){
                     return pokemon;
                 }
-                const frenchName = pokemon.names.find(el => el.language.name === 'fr');
-                if(frenchName.name.toLowerCase().includes(searchTerm)){
+                const frenchName = pokemon.names.find((el:language) => el.language.name === 'fr');
+                if(frenchName?.name.toLowerCase().includes(searchTerm)){
                     return pokemon;
                 }
-                const inglishName = pokemon.names.find(el => el.language.name === 'en');
-                if(inglishName.name.toLowerCase().includes(searchTerm)){
+                const inglishName = pokemon.names.find((el:language) => el.language.name === 'en');
+                if(inglishName?.name.toLowerCase().includes(searchTerm)){
                     return pokemon;
                 }
-                if(searchTerm.includes(pokemon.id)){
+                if(searchTerm.includes(pokemon.id.toString())){
                     return pokemon;
                 }
             });
@@ -67,10 +75,10 @@ export const ContextProvider = ({children}) => {
     useEffect(()=>{
         if(pokemons.length > 0){
             const urlPokemonUrl= pokemons.map((x, idx) => `https://pokeapi.co/api/v2/pokemon-species/${idx + 1}` );
-            function getAllPok (urls){
+            function getAllPok (urls:Array<string>){
                return Promise.all(urls.map(fetchData));
             }
-            function fetchData(URL){
+            function fetchData(URL:string){
                     return axios
                       .get(URL)
                       .then(response => {
@@ -96,8 +104,10 @@ export const ContextProvider = ({children}) => {
             }
            ).then( resultPokemon => {
             setpokemonsDetails(resultPokemon)
-           }).catch(
-                setisLoading(false)
+           }).catch( err => {
+               setisLoading(false);
+               console.log(err)
+           }
            );
            
         }

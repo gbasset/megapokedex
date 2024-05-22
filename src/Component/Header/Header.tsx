@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import styles from './Header.module.css';
 import { NavLink,useLocation } from "react-router-dom";
@@ -30,7 +30,7 @@ export default function Header() {
     else{
       setcolor('#DBD8B7');
     }
-  },[mainInformationPokemonSelected])
+  },[mainInformationPokemonSelected,setcolor])
 
   return (
     <div className={styles.header_contour} style={{backgroundColor: color}}> 
