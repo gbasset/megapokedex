@@ -11,8 +11,7 @@ export default function HomeContainer() {
     searchResults,
     scrollPosition
     } =UseMainContext();
-    console.log('🚀🐱 😻 --///** ~ file: HomeContainer.tsx:14 ~ HomeContainer ~ searchResults:', searchResults)
-
+    
     useEffect(()=>{
       if(scrollPosition){
         window.scrollTo(0, scrollPosition);
@@ -21,7 +20,7 @@ export default function HomeContainer() {
   return (
     <div className='pokedex_container' >
       {isLoading && <PokeLoader />}
-        {searchResults.map((pokemon:PokeType) => <Box key={pokemon.id} pokemon={pokemon} />)}
+        {searchResults.map((pokemon:PokeType) => <Box key={pokemon.id} pokemon={pokemon} > </Box>)}
     </div>
   )
 }

@@ -1,8 +1,8 @@
-import React from 'react'
+
 import ProgressBar from '../UI/ProgressBar'
 
 
-const arrayOfStats = [
+const arrayOfStats: Array<{label: string; key:string;}> = [
     {
         label : 'PV',
         key : 'hp'
@@ -28,15 +28,29 @@ const arrayOfStats = [
         key : 'speed'
     },
 ]
-export default function Stats({stats, color}) {
+type StatsTypes = {
+    stats : [
+        {
+            base_stat   : number;
+            effort : number;
+            stat:{
+                name : string;
+                url: string;
+            }
+         }],
+    color : string
+}
+export default function Stats({stats, color}:StatsTypes) {
   return (
     <div className='element-stat'>
        
-        {stats && stats.map(statElement =>
-        <div key={statElement.stat.name}>
-           <span style={{color: color}}>{arrayOfStats.find(e => e.key === statElement.stat.name).label}</span>
+        {stats && stats.map(statElement => {
+            const findElement = arrayOfStats.find(e => e.key === statElement.stat.name)
+        return <div key={statElement.stat.name}>
+           <span style={{color: color}}>{findElement ? findElement.label : ''}</span>
            <ProgressBar percentRange={statElement.base_stat} color={color} max={255} />
         </div>
+        }
         )}
     </div>
   )

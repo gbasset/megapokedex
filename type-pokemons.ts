@@ -77,6 +77,7 @@ export type Ability = {
     color: string;
     name : string;
     url: string;
+    img?: string;
     cries : object;
     evolution_chain : string;
     evolves_from_species: object;
