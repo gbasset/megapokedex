@@ -110,7 +110,14 @@ export type Ability = {
     past_types: [];
     pokedex_numbers: [object];
     shape: object;
-    stats:[object];
+    stats:[ {
+      base_stat   : number;
+      effort : number;
+      stat:{
+          name : string;
+          url: string;
+      }
+   }];
     types:object[];
     varieties:[Variety];
     weight: number;

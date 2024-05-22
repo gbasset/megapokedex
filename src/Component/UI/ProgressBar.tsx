@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+
 import './progress-bar.css';
 
-export default function ProgressBar({percentRange, color, max}) {
+type ProgressBar = {
+  percentRange: number;
+  color: string;
+  max: number;
+}
+export default function ProgressBar({percentRange, color, max}:ProgressBar) {
 const percent = (percentRange * 100) / max ;
 
   return (
     <div className="container">
         <div className="progress-bar">
-            <div className="range" value={percentRange} style={{width: `${percent}%`, background : color}}> </div>
+            <div className="range"  style={{width: `${percent}%`, background : color}}> </div>
            
         </div>
     </div>
