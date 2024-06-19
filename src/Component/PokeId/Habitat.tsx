@@ -7,6 +7,7 @@ import styles from './PodeId.module.css';
   }
   
   export default function Habitat({url} : Habitat) {
+      
     const [habitat, setHabitat] = useState([]);
 
     useEffect(()=>{
@@ -14,7 +15,7 @@ import styles from './PodeId.module.css';
       .then(x => {
         const data = x.data.names;
         const sumOfHabit = data.reduce(
-          (accumulator:[] | [string] | undefined, currentValue: any) => {
+          (accumulator:Array<string>, currentValue: any) => {
             if(currentValue.language.name === 'fr'){
               if(accumulator !== undefined){
                 return accumulator = [...accumulator, currentValue.name];
@@ -34,6 +35,9 @@ import styles from './PodeId.module.css';
         console.error(err);
       })
     },[]);
+    if(!url){
+      return null;
+    }
     return (
      
       <div className={styles.container_element}>
@@ -44,6 +48,3 @@ import styles from './PodeId.module.css';
       </div>
       )
     }
-    Habitat.propTypes = {
-      objectElement: Habitat
-    };

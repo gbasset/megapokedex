@@ -22,6 +22,7 @@ import {
   sprite} from '../../../type-pokemons.ts';
 import SvgMal from './SvgMal.tsx';
 import SvgFemale from './SvgFemale.tsx';
+import Evolutions from './Evolutions.tsx';
 
 
  function calculLabelByHeight (element : number) {
@@ -64,11 +65,11 @@ export default function PokeId() {
   const [pokemon, setpokemon] = useState<PokeType | undefined>()
   console.log('🚀🐱 😻 --///** ~ file: PokeId.tsx:9 ~ PokeId ~ pokemon:', pokemon)
   const [elementDescription, setelementDescription] = useState<[flavor_text_entrie | []]>([]);
-  const [evolutions, setevolutions] = useState({});
+
+
   const [officialArtWork, setofficialArtWork] = useState<sprite | any>(undefined);
   const [isLoading, setisLoading] = useState(true);
   function getFavoriteText (poke: PokeType | any, idLanguage: string){
-
     const txtFav = poke.flavor_text_entries.filter((txt:flavor_text_entrie )=> txt.language.name === idLanguage);
     return txtFav.filter((x:flavor_text_entrie )=> x.version.name === "sword");
   }
@@ -89,6 +90,8 @@ export default function PokeId() {
           setisLoading(false);
           setpokemon(elementPoke);
           setmainInformationPokemonSelected(elementPoke);
+        setelementDescription(getFavoriteText(elementPoke, 'fr'))
+        setofficialArtWork(getPrincipalSpriteFrontPokemon(elementPoke));
         }
       )
     })
@@ -98,12 +101,7 @@ export default function PokeId() {
     })
 },[id,setpokemon,setisLoading,setmainInformationPokemonSelected]);
 
-useEffect(()=>{
-  if(pokemon){
-    setelementDescription(getFavoriteText(pokemon, 'fr'))
-    setofficialArtWork(getPrincipalSpriteFrontPokemon(pokemon));
-  }
-},[pokemon])
+
 useEffect(()=> {
   if(pokemon){
     if(!pokemon.has_gender_differences){
@@ -114,15 +112,6 @@ useEffect(()=> {
   }
 },[genre, pokemon,setGenre])
 
-useEffect(()=>{
-  axios.get(baseUrl+`evolution-chain/${id}`)
-  .then(x => {
-    setevolutions(x.data)
-  })
-  .catch(err => {
-    console.error(err);
-})
-},[]);
 
 
   return (
@@ -230,7 +219,7 @@ useEffect(()=>{
           <div className={styles.container_element}><span> Éxpérience de base:</span> {pokemon?.base_experience}</div>
           <div className={styles.container_element}><span>Bonheur de base:</span> {pokemon?.base_happiness}</div>
           <div className={styles.container_element}><span>Taux de capture:</span> {pokemon?.capture_rate}</div>
-          {pokemon?.habitat !== null && <Habitat url={pokemon?.habitat.url}/> }
+          { <Habitat url={pokemon?.habitat?.url}/> }
         </div>
       }
         </section>
@@ -239,6 +228,7 @@ useEffect(()=>{
     {pokemon &&  <div>
         {pokemon?.varieties.filter(v => !v.is_default).map(variety => <Varieties key={variety.pokemon.name} variety={variety}></Varieties>)
         }
+        <Evolutions url={pokemon.evolution_chain.url} pokemon={pokemon}/>
       </div>}
       </div>
   )

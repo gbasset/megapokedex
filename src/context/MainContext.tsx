@@ -22,12 +22,12 @@ export const ContextProvider = ({children}:cxt) => {
     const [pokemons, setPokemons] = useState([]);
     const [pokemonsDetails, setpokemonsDetails] = useState<Array<PokeType>| []>([]);
 
-    const [isLoading, setisLoading] = useState(true);
+    const [isLoading, setisLoading] = useState<boolean>(true);
 	const [searchResults, setSearchResults] = useState<Array<PokeType>>([]);
 
-    const [genre, setGenre] = useState('normal');
-    const [isShinny, setisShinny] = useState(false)
-    const [searchTerm, setSearchTerm] = useState("");
+    const [genre, setGenre] = useState<string>('normal');
+    const [isShinny, setisShinny] = useState<boolean>(false)
+    const [searchTerm, setSearchTerm] = useState<string>("");
     const handleChange = (event:ChangeEvent) => {
         const target = event.target as HTMLTextAreaElement;
         if(target){

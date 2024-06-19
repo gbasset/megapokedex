@@ -10,7 +10,7 @@ export type Ability = {
     is_hidden : boolean;
     slot: number;
   }
-  export type Variety = {
+export type Variety = {
     is_default : boolean;
     pokemon : {
       name : string;
@@ -18,7 +18,7 @@ export type Ability = {
     }
   }
   
-  export type  flavor_text_entrie  = {
+export type flavor_text_entrie  = {
     flavor_text : string;
     language : {
       name : string;
@@ -29,7 +29,7 @@ export type Ability = {
       url:string;
     };
   }
-  export type language = {
+export type language = {
     language : {
         name : string;
         url : string;
@@ -37,7 +37,7 @@ export type Ability = {
     name : string;
   }
 
-  export type sprite = {
+export type sprite = {
     back_default: string | null;
     back_female: string | null;
     back_shiny: string | null;
@@ -64,12 +64,9 @@ export type Ability = {
             front_shiny_female: string | null | undefined;
         };
     }
-
-
-
 };
     
-  export type  PokeType = {
+export type  PokeType = {
     abilities: [Ability];
     base_experience: number;
     base_happiness: number;
@@ -79,8 +76,8 @@ export type Ability = {
     url: string;
     img?: string;
     cries : object;
-    evolution_chain : string;
-    evolves_from_species: object;
+    evolution_chain : {url: string};
+    evolves_from_species:  {url: string,name:string};
     flavor_text_entries: [flavor_text_entrie | []];
     form_descriptions:[];
     forms:[object];
@@ -123,3 +120,23 @@ export type Ability = {
     weight: number;
     sprites? : sprite
   }
+  export type Evolution = {
+    baby_trigger_item: any,
+    chain : {
+      evolution_details : [any],
+      evolves_to: Array<Evolution>,
+      is_baby: boolean,
+      species: {
+        name: string,
+        url: string
+      }
+    },
+    species: {
+      name: string,
+      url: string
+    },
+    id: number
+
+  }
+
+

@@ -10,8 +10,8 @@ export default function HomeContainer() {
     isLoading,
     searchResults,
     scrollPosition
-    } =UseMainContext();
-    
+    }:any =UseMainContext();
+
     useEffect(()=>{
       if(scrollPosition){
         window.scrollTo(0, scrollPosition);

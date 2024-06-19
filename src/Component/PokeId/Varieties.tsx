@@ -3,13 +3,17 @@ import axios from 'axios';
 import styles from './PodeId.module.css';
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { v4 as uuidv4 } from 'uuid';
-import {baseUrl, colorByPokemonTypes} from '../../utils/apiAndDatabase';
-export default function Varieties({variety}) {
+import { colorByPokemonTypes} from '../../utils/apiAndDatabase';
+import { Variety ,PokeType} from '../../../type-pokemons';
+type PropsVariety = {
+  variety: Variety;
+}
+export default function Varieties({variety}:PropsVariety) {
     function getTypeData (element: any){
         const elementType = colorByPokemonTypes.find( x=> x.type === element.type.name) ;
         return elementType;
       }
-    const [pokemonCurrent, setpokemonCurrent] = useState()
+    const [pokemonCurrent, setpokemonCurrent] = useState<PokeType>()
     useEffect(()=>{
         axios.get(variety.pokemon.url)
         .then(x => {
@@ -36,19 +40,21 @@ export default function Varieties({variety}) {
                 >
                 <ReactTooltip
                   id={idV}
-                  backgroundColor="black"
-                  effect="solid"
                   place="bottom"
-                  globalEventOff="click"
-                  delayShow={600}
-				        />
+                  delayShow={600}/>
                   <img src={type?.image} alt={type?.label}  />
                   </div>
               }
             )}
              </div>
-       <img src={pokemonCurrent?.sprites.front_default} alt="" style={{height: '150px'}} />
-       <img src={pokemonCurrent?.sprites.front_shiny} alt=""  style={{height: '150px'}}/>
+             {pokemonCurrent &&
+                <>
+                { pokemonCurrent.sprites?.front_default !== null &&
+                <img src={pokemonCurrent?.sprites?.front_default} alt="" style={{ height: '150px' }} />}
+              { pokemonCurrent.sprites?.front_shiny !== null &&
+                <img src={pokemonCurrent?.sprites?.front_shiny} alt="" style={{ height: '150px' }} />}
+                </>
+             }
         </div>
   )
 }

@@ -15,7 +15,8 @@ export default function Header() {
     mainInformationPokemonSelected,
     color,
     setcolor,
-    setmainInformationPokemonSelected} = UseMainContext();
+    setmainInformationPokemonSelected
+  }:any = UseMainContext();
 
 
   useEffect(()=>{
