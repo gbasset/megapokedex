@@ -147,19 +147,15 @@ useEffect(()=> {
         </div>
     {!isLoading && <div className={styles.pokemon_card}>
     {pokemon &&
-        <div className={styles.element}>
-        <span>Statistiques de bases</span>
+
+       <section className={styles.element}>
         <div className={styles.element_container}>
+        <h3>Statistiques de bases</h3>
        <Stats stats={pokemon.stats} color={color} />
-        {pokemon?.abilities?.length > 0 && 
-        <>
-         <h3>Talents</h3>
-          {pokemon?.abilities.map((ability, i) => {
-          return <Ability key={i} url={ability.ability.url} /> })}
-        </>
-        }
+      
        </div>
-        </div>}
+       </section>}
+
         <div className={styles.image_container}>
         <div className={styles.image_container_boxes}>
           {isShinny && genre === 'female' &&
@@ -209,9 +205,9 @@ useEffect(()=> {
         </div>
         </div>
         <section className={styles.element}>
-        <span>Caractéristiques</span>
-        {pokemon && 
+        {pokemon && <>
         <div className={styles.element_container}>
+        <h3>Caractéristiques</h3>
           <div className={styles.container_element}><span>Taille :</span> {calculLabelByHeight(pokemon?.height / 10)}</div>
           <div className={styles.container_element}><span>Poids :</span> {calculLabelByWeight(pokemon?.weight / 10)}</div>
           <div className={styles.container_element}><span>Légendaire :</span> {pokemon?.is_legendary ? 'Oui' : 'Non'}</div>
@@ -221,10 +217,20 @@ useEffect(()=> {
           <div className={styles.container_element}><span>Taux de capture:</span> {pokemon?.capture_rate}</div>
           { <Habitat url={pokemon?.habitat?.url}/> }
         </div>
+        </>
       }
         </section>
              
     </div>}
+    {pokemon && pokemon?.abilities?.length > 0 && 
+         <section className={styles.element}>
+        <div className={styles.element_container}>
+         <h3>Talents</h3>
+          {pokemon?.abilities.map((ability, i) => {
+          return <Ability key={i} url={ability.ability.url} /> })}
+        </div>
+        </section>
+        }
     {pokemon &&  <div>
         {pokemon?.varieties.filter(v => !v.is_default).map(variety => <Varieties key={variety.pokemon.name} variety={variety}></Varieties>)
         }

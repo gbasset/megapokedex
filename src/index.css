@@ -167,6 +167,13 @@ button:focus-visible {
   font-weight: bold;
   font-size: 1.2rem;
 }
+.evolution:hover{
+  animation :  0.7s;
+  color: white;
+  font-weight: bold;
+  transition: 0.5s;
+  transform: scale(1.2);
+}
 .wrapper
 {
     position: absolute;
@@ -183,6 +190,7 @@ button:focus-visible {
 }
 .element-stat{
   display: flex;
+  width: 130%;
   flex-direction: column;
 }
 .element-stat span{

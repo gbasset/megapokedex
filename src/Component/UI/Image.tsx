@@ -3,8 +3,9 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   placeholderImg?: string;
   errorImg?: string;
   className? : any;
+  onClick? : any;
 }
-export default function ImageCpc({ src, placeholderImg, errorImg, className }: ImageProps) {
+export default function ImageCpc({ src, placeholderImg, errorImg, className ,onClick}: ImageProps) {
 
   const [imgSrc, setSrc] = useState(placeholderImg || src);
 
@@ -31,5 +32,10 @@ export default function ImageCpc({ src, placeholderImg, errorImg, className }: I
     }
   }, [src, onLoad, onError]);
 
-  return <img className={className}  alt={imgSrc} src={imgSrc} />;
-};
+  return  <img 
+             style={onClick ? {cursor: 'pointer'}  : {}}
+              onClick={onClick ? onClick : null}
+              className={className}  
+              alt={imgSrc} 
+              src={imgSrc} />;
+}

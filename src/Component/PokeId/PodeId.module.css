@@ -1,9 +1,10 @@
 .pokemon_card{
-    padding: 2rem;
+
     display: flex;
-    margin: auto;
+   
     justify-content: space-evenly;
-    animation : fadein 1s
+    animation : fadein 1s;
+  
 }
 .pokemon_card span:first-child{
     font-size: large;
@@ -14,12 +15,20 @@
 }
 
 .element{
-    width: 30%;
+ 
     text-align: left;
     font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .element_container{
-    margin-top: 15px;
+    height: 450px;
+    width: auto;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .container_element{
 height: 40px;
@@ -52,8 +61,6 @@ height: 40px;
 .image_container {
     display: flex;
     flex-direction: column;
-    min-height : 500px;
-    width: 40% ;
     animation : fadein 1s
 }
 .image_container_boxes {
@@ -65,22 +72,24 @@ height: 40px;
     min-height : 200px;
     max-width: 700px ;
     margin: auto;
-    animation : fadein 1s
+    animation : fadein 1s;
+    transition: 0.5s;
 }
 .image_container_img{
-    animation : fadein 0.7s;
+    animation : fadein 0.8s;
+    transition: 0.5s;
     min-height : 500px;
     max-width: 700px ;
 }
 .image_container_img_small{
     animation : fadein 0.7s;
     min-height : 100px;
-    max-width: 200px ;
+    max-width: 150px ;
 }
 .image_container_img_mini{
     animation : fadein 0.7s;
     min-height : 50px;
-    max-width: 100px ;
+    max-width: 50px ;
 }
 .image_container button{
     width: 150px;

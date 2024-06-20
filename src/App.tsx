@@ -13,6 +13,7 @@ function App() {
     <ContextProvider>
 
          <Header />
+
          <Routes>
             <Route path="/" element={<HomeContainer/>}/> 
             <Route path="/poke/:id" element={<PokeId/>}/> 

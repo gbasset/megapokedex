@@ -47,8 +47,9 @@ export default function Stats({stats, color}:StatsTypes) {
         {stats && stats.map(statElement => {
             const findElement = arrayOfStats.find(e => e.key === statElement.stat.name)
         return <div key={statElement.stat.name}>
-           <span style={{color: color}}>{findElement ? findElement.label : ''}</span>
+           <span style={{color: color}}>{findElement ? findElement.label : ''} {statElement.base_stat}</span>
            <ProgressBar percentRange={statElement.base_stat} color={color} max={255} />
+           
         </div>
         }
         )}

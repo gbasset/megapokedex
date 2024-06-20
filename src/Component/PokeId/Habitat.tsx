@@ -7,8 +7,9 @@ import styles from './PodeId.module.css';
   }
   
   export default function Habitat({url} : Habitat) {
-      
-    const [habitat, setHabitat] = useState([]);
+      console.log('🚀🐱 😻 --///** ~ file: Habitat.tsx:10 ~ Habitat ~ url:', url)
+      const [habitat, setHabitat] = useState([]);
+     
 
     useEffect(()=>{
       axios.get(url)
@@ -35,9 +36,10 @@ import styles from './PodeId.module.css';
         console.error(err);
       })
     },[]);
-    if(!url){
+    if(!url || habitat.length === 0){
       return null;
     }
+    
     return (
      
       <div className={styles.container_element}>
