@@ -13,6 +13,7 @@ import Stats from './Stats.js';
 import Varieties from './Varieties.js';
 import Image from '../UI/Image.js';
 import PokemonHeader from './PokemonHeader.tsx';
+import PokemonProfile from './PokemonProfile.tsx';
 import {
   flavor_text_entrie,
   PokeType,
@@ -23,28 +24,6 @@ import SvgFemale from './SvgFemale.tsx';
 import Evolutions from './Evolutions.tsx';
 
 
- function calculLabelByHeight (element : number) {
-  if(element <= 0.99){
-    return element * 100 + ' cm'
-  }else{
-    if(element === 1){
-      return element + ' mètre'
-    }else{
-      return element + ' mètres';
-    }
-  }
- }
- function calculLabelByWeight (element : number) {
-  if(element <= 0.99){
-    return element * 100 + ' gramme'
-  }else{
-    if(element === 1){
-      return element + ' kilo'
-    }else{
-      return element + ' kilos';
-    }
-  }
- }
 
 export default function PokeId() {
   const {
@@ -114,84 +93,19 @@ useEffect(()=> {
        {isLoading && <PokeLoader />}
 
         <PokemonHeader pokemon={pokemon} flavorText={elementDescription} />
-    {!isLoading && <div className={styles.pokemon_card}>
-    {pokemon &&
-
-       <section className={styles.element}>
-        <div className={styles.element_container}>
-        <h3>Statistiques de bases</h3>
-       <Stats stats={pokemon.stats} color={color} />
-      
-       </div>
-       </section>}
-
-        <div className={styles.image_container}>
-        <div className={styles.image_container_boxes}>
-          {isShinny && genre === 'female' &&
-            <Image
-            className={styles.image_container_img}
-            placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            src={officialArtWork?.front_shiny_female ?? undefined}
-          />       
-        }
-          {isShinny && genre !== 'female' &&
-            <Image
-            className={styles.image_container_img}
-            placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            src={officialArtWork?.front_shiny ?? undefined}
-          />       
-        }
-          {!isShinny && genre === 'female' &&
-            <Image
-            className={styles.image_container_img}
-            placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            src={officialArtWork?.front_female ?? undefined}
-          />        
-        }
-          {!isShinny && genre !== 'female' &&
-            <Image
-            className={styles.image_container_img}
-            placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            src={officialArtWork?.front_default ?? undefined}
-          />        
-        }
-        </div>
-
-        <div className={styles.containerBtn}>
-        <button onClick={()=>handleChooseShiny()} style={{backgroundColor: isShinny ? 'var(--darkyellow)' : 'var(--blue)' }}>   <img className={styles.imageBtn}src="https://raw.githubusercontent.com/msikma/pokesprite/master/misc/special-attribute/shiny-stars.png" alt="" height={'25px'} /></button>
-      {
-        pokemon?.has_gender_differences &&
-        <button onClick={()=>setGenre(genre === 'female' ? 'normal': 'female')}> 
-        {genre === 'female' ? 'Femelle' : 'Male'} 
-        {genre !== 'female'  && <SvgMal/>}
-       { genre === 'female' && <SvgFemale/> }
-        </button>
-      }
-        </div>
-        </div>
-        <section className={styles.element}>
-        {pokemon && <>
-        <div className={styles.element_container}>
-        <h3>Caractéristiques</h3>
-          <div className={styles.container_element}><span>Taille :</span> {calculLabelByHeight(pokemon?.height / 10)}</div>
-          <div className={styles.container_element}><span>Poids :</span> {calculLabelByWeight(pokemon?.weight / 10)}</div>
-          <div className={styles.container_element}><span>Légendaire :</span> {pokemon?.is_legendary ? 'Oui' : 'Non'}</div>
-          <div className={styles.container_element}><span>Fabuleux :</span> {pokemon?.is_mythical ? 'Oui' : 'Non'}</div>
-          <div className={styles.container_element}><span> Éxpérience de base:</span> {pokemon?.base_experience}</div>
-          <div className={styles.container_element}><span>Bonheur de base:</span> {pokemon?.base_happiness}</div>
-          <div className={styles.container_element}><span>Taux de capture:</span> {pokemon?.capture_rate}</div>
-          { <Habitat url={pokemon?.habitat?.url}/> }
-        </div>
-        </>
-      }
-        </section>
-             
-    </div>}
-    {pokemon && pokemon?.abilities?.length > 0 && 
+    {!isLoading && pokemon && (
+      <PokemonProfile
+        pokemon={pokemon}
+        officialArtWork={officialArtWork}
+        isShinny={isShinny}
+        genre={genre}
+        handleChooseShiny={handleChooseShiny}
+        setGenre={setGenre}
+        color={color}
+        hasGenderDifferences={pokemon.has_gender_differences}
+      />
+    )}
+    {pokemon && pokemon?.abilities?.length > 0 && (
          <section className={styles.element}>
         <div className={styles.element_container}>
          <h3>Talents</h3>
@@ -199,12 +113,14 @@ useEffect(()=> {
           return <Ability key={i} url={ability.ability.url} /> })}
         </div>
         </section>
-        }
-    {pokemon &&  <div>
+    )}
+    {pokemon && (
+      <div>
         {pokemon?.varieties.filter(v => !v.is_default).map(variety => <Varieties key={variety.pokemon.name} variety={variety}></Varieties>)
         }
         <Evolutions url={pokemon.evolution_chain.url} pokemon={pokemon}/>
-      </div>}
+      </div>
+    )}
       </div>
   )
 }
