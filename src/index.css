@@ -1,14 +1,15 @@
-
 @font-face {
   font-family: "Poke Hollow";
   src: url('./assets/PokemonHollow.ttf');
 }
+
 @font-face {
   font-family: "Poke Solid";
   src: url('./assets/PokemonSolid.ttf');
 }
+
 :root {
-  font-family:  Inter, system-ui;
+  font-family: Inter, system-ui;
   line-height: 1.5;
   font-weight: 400;
 
@@ -36,13 +37,13 @@
   --psypink: #dd2766;
   --grey: #636e72;
   --lightgrey: #b2bec3;
-  --brown: #92501B ;
-  --lightbrown: #8a7d72 ;
+  --brown: #92501B;
+  --lightbrown: #8a7d72;
   --t1: all 0.5s ease 0s;
-
-
+  --bg-main: #f5f4e8;
+  --bg-card: #DBD8B7;
   color: var(--black);
-  background-color: var(--white);
+  background-color: var(--bg-main);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -56,6 +57,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -71,7 +73,7 @@ h1 {
   line-height: 1.1;
   font-family: Poke Hollow;
   color: var(--black);
-  
+
 }
 
 button {
@@ -85,10 +87,12 @@ button {
   cursor: pointer;
   transition: all 0.25s linear;
 }
+
 button:hover {
-  border-color: var(--lightblue)  ;
+  border-color: var(--lightblue);
   opacity: 0.90;
 }
+
 button:focus,
 button:focus-visible {
   outline: 1px blue;
@@ -99,16 +103,18 @@ button:focus-visible {
     color: #213547;
     background-color: var(--white);
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
 }
 
 
-.pokedex_container{
+.pokedex_container {
   display: grid;
   grid-template-columns: repeat(auto-fill, 250px);
   /* grid-column-gap: 30px; */
@@ -118,19 +124,21 @@ button:focus-visible {
   justify-content: center;
 }
 
-.box{
+.box {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
   border: 1px solid rgb(245, 238, 238);
   height: 300px;
   width: 200px;
   cursor: pointer;
   border-radius: 6px;
-  background-color: #e9e7d294;
+  background-color: var(--bg-card);
   box-sizing: border-box;
   margin: auto;
   position: relative;
   overflow: hidden;
+  --hover-color: var(--lightred);
 }
+
 .box:before {
   content: "";
   position: absolute;
@@ -145,58 +153,65 @@ button:focus-visible {
   transform-origin: 50% 50%;
   transition: transform 0.35s ease-out;
 }
+
 .box:hover:before {
   transform: scale(21);
-  background: red ;
+  background: var(--hover-color);
 }
-.box:hover{
+
+.box:hover {
   box-shadow: var(--lightgrey, 0.5) 0px 5px 15px;
   color: white;
   font-weight: bold;
   font-size: 1.2rem;
 }
-.evolution:hover{
-  animation :  0.7s;
+
+.evolution:hover {
+  animation: 0.7s;
   color: white;
   font-weight: bold;
   transition: 0.5s;
   transform: scale(1.2);
 }
-.wrapper
-{
-    position: absolute;
-    top: 50%;
-    left: 50%;
 
-   transform: translate(-50%, -50%);
+.wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
 
 }
-.ability span{
+
+.ability span {
   color: var(--psypink);
   font-weight: bold;
   margin-bottom: 5px;
 }
-.element-stat{
+
+.element-stat {
   display: flex;
   width: 130%;
   flex-direction: column;
 }
-.element-stat span{
+
+.element-stat span {
   font-weight: bold;
   margin-bottom: 5px;
 }
+
 .pokeball {
   width: 60px;
   height: 60px;
   background-color: #fff;
-  border-radius: 50% ;
+  border-radius: 50%;
   position: relative;
   overflow: hidden;
   border: 3px solid;
-  animation: frames .8s  linear 0s infinite;
+  animation: frames .8s linear 0s infinite;
 }
 
-.pokeball:after{
+.pokeball:after {
   content: '';
   position: absolute;
   width: 60px;
@@ -206,12 +221,12 @@ button:focus-visible {
   top: -4px
 }
 
-.pokeball:before{
+.pokeball:before {
   content: '';
   position: absolute;
   background-color: #fff;
   width: 10px;
-  height:10px;
+  height: 10px;
   border: 4px solid;
   border-radius: 50%;
   bottom: 18px;
@@ -220,11 +235,12 @@ button:focus-visible {
 }
 
 /* AnimationFrames */
-@keyframes frames{
+@keyframes frames {
   0% {
     transform: rotate(0deg);
   }
-  100%{
+
+  100% {
     transform: rotate(360deg);
   }
 }

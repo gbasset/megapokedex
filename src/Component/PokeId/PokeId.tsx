@@ -1,25 +1,23 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import {baseUrl, colorByPokemonTypes} from '../../utils/apiAndDatabase';
-import {getNameInOtherLanguage,getPrincipalSpriteFrontPokemon} from '../../utils/transform';
+import { baseUrl } from '../../utils/apiAndDatabase';
+import { getNameInOtherLanguage, getPrincipalSpriteFrontPokemon } from '../../utils/transform';
 import styles from './PodeId.module.css';
-import {UseMainContext} from '../../context/MainContext.jsx';
+import { UseMainContext } from '../../context/MainContext.jsx';
 import PokeLoader from '../UI/PokeLoader.js';
-import 'react-tooltip/dist/react-tooltip.css'
-import { Tooltip as ReactTooltip } from 'react-tooltip'
-import { v4 as uuidv4 } from 'uuid';
+
 import Habitat from './Habitat.js';
 import Ability from './Ability.js';
-
 import Stats from './Stats.js';
 import Varieties from './Varieties.js';
 import Image from '../UI/Image.js';
-
+import PokemonHeader from './PokemonHeader.tsx';
 import {
   flavor_text_entrie,
   PokeType,
-  sprite} from '../../../type-pokemons.ts';
+  sprite
+} from '../../../type-pokemons.ts';
 import SvgMal from './SvgMal.tsx';
 import SvgFemale from './SvgFemale.tsx';
 import Evolutions from './Evolutions.tsx';
@@ -47,10 +45,7 @@ import Evolutions from './Evolutions.tsx';
     }
   }
  }
- function getTypeData (element: any){
-   const elementType = colorByPokemonTypes.find( x=> x.type === element.type.name) ;
-   return elementType;
- }
+
 export default function PokeId() {
   const {
     setmainInformationPokemonSelected,
@@ -118,33 +113,7 @@ useEffect(()=> {
     <div>
        {isLoading && <PokeLoader />}
 
-        <div className={styles.name}>
-             <h1>{pokemon?.friendlyName}</h1> 
-             <h3># {pokemon?.id}</h3>
-             <div className={styles.types}>
-             {pokemon?.types.map((x ,i)=> {
-              const type  = getTypeData(x);
-              const idV = uuidv4();
-                return <div key={i} className={styles.pokemon_types} data-tooltip-id={idV}
-                data-tooltip-content={type?.label}
-                >
-                <ReactTooltip
-                  id={idV}
-                  place="bottom"
-                  delayShow={600} />
-                  <img src={type?.image} alt={type?.label} />
-                  </div>
-              }
-            )}
-             </div>
-            <div>
-            {elementDescription && elementDescription.map((el:flavor_text_entrie | any,idx) => {
-            return <p key={idx}>{el.flavor_text}</p>
-          })}
-            </div>
-
-           
-        </div>
+        <PokemonHeader pokemon={pokemon} flavorText={elementDescription} />
     {!isLoading && <div className={styles.pokemon_card}>
     {pokemon &&
 
