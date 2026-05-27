@@ -144,6 +144,7 @@ export const ContextProvider = ({children}:cxt) => {
                 searchResults,
                 setSearchResults,
                 searchTerm,
+                setSearchTerm,
                 handleChange,
                 scrollPosition
 			}}
