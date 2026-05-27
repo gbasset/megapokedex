@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable no-inner-declarations */
-import React, { createContext, useState, useContext ,useEffect, ReactNode, ChangeEvent} from 'react';
+import { createContext, useState, useContext ,useEffect, type ReactNode, type ChangeEvent} from 'react';
 import {baseUrl} from '../utils/apiAndDatabase';
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
@@ -15,16 +15,13 @@ type cxt = {
 }
 export const ContextProvider = ({children}:cxt) => {
     const location = useLocation();
-    const [scrollPosition, setScrollPosition] = useState(0);
-
-    const [color, setcolor] = useState('normal');
+    const [scrollPosition, setScrollPosition] = useState<number>(0);
+    const [color, setcolor] = useState<string>('normal');
     const [mainInformationPokemonSelected, setmainInformationPokemonSelected] = useState();
     const [pokemons, setPokemons] = useState([]);
     const [pokemonsDetails, setpokemonsDetails] = useState<Array<PokeType>| []>([]);
-
     const [isLoading, setisLoading] = useState<boolean>(true);
 	const [searchResults, setSearchResults] = useState<Array<PokeType>>([]);
-
     const [genre, setGenre] = useState<string>('normal');
     const [isShinny, setisShinny] = useState<boolean>(false)
     const [searchTerm, setSearchTerm] = useState<string>("");

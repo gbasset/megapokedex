@@ -67,7 +67,7 @@ export default function PokeId() {
   const [elementDescription, setelementDescription] = useState<[flavor_text_entrie | []]>([]);
 
 
-  const [officialArtWork, setofficialArtWork] = useState<sprite | any>(undefined);
+  const [officialArtWork, setofficialArtWork] = useState<sprite['other']['official-artwork'] | undefined>(undefined);
   const [isLoading, setisLoading] = useState(true);
   function getFavoriteText (poke: PokeType | any, idLanguage: string){
     const txtFav = poke.flavor_text_entries.filter((txt:flavor_text_entrie )=> txt.language.name === idLanguage);
@@ -163,7 +163,7 @@ useEffect(()=> {
             className={styles.image_container_img}
             placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
             errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            src={officialArtWork && officialArtWork['front_shiny_female']}
+            src={officialArtWork?.front_shiny_female ?? undefined}
           />       
         }
           {isShinny && genre !== 'female' &&
@@ -171,7 +171,7 @@ useEffect(()=> {
             className={styles.image_container_img}
             placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
             errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            src={officialArtWork && officialArtWork['front_shiny']}
+            src={officialArtWork?.front_shiny ?? undefined}
           />       
         }
           {!isShinny && genre === 'female' &&
@@ -179,7 +179,7 @@ useEffect(()=> {
             className={styles.image_container_img}
             placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
             errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            src={officialArtWork && officialArtWork['front_female' ]}
+            src={officialArtWork?.front_female ?? undefined}
           />        
         }
           {!isShinny && genre !== 'female' &&
@@ -187,7 +187,7 @@ useEffect(()=> {
             className={styles.image_container_img}
             placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
             errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-            src={officialArtWork && officialArtWork['front_default' ]}
+            src={officialArtWork?.front_default ?? undefined}
           />        
         }
         </div>
