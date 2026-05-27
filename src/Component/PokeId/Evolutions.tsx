@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { PokeType, EvolutionChainNode, EvolutionStep } from '../../../type-pokemons';
+import { EvolutionChainNode, EvolutionStep } from '../../../type-pokemons';
 import EvolutionItem from './EvolutionItem';
 import { getNameInOtherLanguage, getPrincipalSpriteFrontPokemon } from '../../utils/transform';
 import { baseUrl } from '../../utils/apiAndDatabase';
@@ -55,7 +55,6 @@ function Evolutions({ url }: P) {
                 for (const pokemon of chaining) {
                     traverseChain([], pokemon);
                 }
-                console.log("🚀 ~ useEffect ~ allChains:", allChains)
             })
             .catch(err => {
                 console.error(err);

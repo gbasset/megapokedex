@@ -1,66 +1,232 @@
-.header_contour{
-    height: 100px;
-    width: 100%;
-    display: flex;
-    justify-content:space-evenly;
-    align-items: center;
-    /* padding: 3rem ; */
-    background-color: antiquewhite;
-    color: black;
-    top: 0;
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    opacity: 0.85;
-    border-bottom: 1px solid #c6c39f;
-    z-index: 888
-}
-.search{
-    position: absolute;
-    left: 5px;
-    top: 30px;
-    height: 24px;
-    width: 24px;
-    margin-left: .5em;
-    width: 0;
-    line-height: 24px;
-    z-index: 999;
+.header_contour {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  transition: box-shadow 0.3s ease;
+  overflow: hidden;
 }
 
-.search button:focus{
-    outline: none;
-    background-color: white;
-    pointer-events: none;
+.header_contour::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--poke-type-color, #DBD8B7);
+  opacity: 0.72;
+  z-index: -1;
+  transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.search :focus{
-    
-   border-color: rgb(154, 99, 99);
-}
-.search input{
-    background-color: white;
-    padding: 16px 32px;
-    border: none;
-    display: block;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 600;
-    color: red;
-    -webkit-appearance: none;
-    transition: all 240ms ease-out;
-    width: 250px;
-    border-radius: 50rem;
-    height: 100%;
-    font-size:larger;
 
+.header_inner {
+  max-width: 1200px;
+  height: 80px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 }
-.search:after {
-    position: relative;
-    content: ""; 
-    background-image: url(https://assets.codepen.io/344909/magnifying-glass-gray.svg);
-    background-repeat: no-repeat;
-    background-size: 1.5rem;
-    background-position: 0.6em center;
-    margin: 10px 50px;
-    padding: 10px;
-    padding-left: 32px;
-    bottom: 36px;
-    left: 200px
- }
+
+/* Three columns layout to keep the brand title perfectly centered */
+.header_left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header_center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header_right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Brand Title & Logo styling */
+.logo_link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.logo_link:hover {
+  transform: scale(1.03);
+}
+
+.header_title {
+  margin: 0;
+  font-family: "Poke Hollow", sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  color: #191919;
+  text-shadow:
+    1.5px 1.5px 0px rgba(255, 255, 255, 0.9),
+    -1.5px -1.5px 0px rgba(255, 255, 255, 0.9),
+    1.5px -1.5px 0px rgba(255, 255, 255, 0.9),
+    -1.5px 1.5px 0px rgba(255, 255, 255, 0.9);
+  transition: text-shadow 0.3s ease;
+}
+
+.logo_link:hover .header_title {
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.9),
+    1.5px 1.5px 4px var(--poke-type-color, rgba(0, 0, 0, 0.2));
+}
+
+/* Search Bar styling */
+.search_container {
+  width: 100%;
+  max-width: 280px;
+}
+
+.search_wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search_icon {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.search_input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 42px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #191919;
+  background-color: rgba(255, 255, 255, 0.65);
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: 99px;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search_input::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+  font-weight: 400;
+}
+
+.search_input:hover {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.search_input:focus {
+  background-color: #ffffff;
+  border-color: var(--poke-type-color, #0984e3);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.45),
+    0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.search_input:focus+.search_icon {
+  color: var(--poke-type-color, #0984e3);
+  transform: scale(1.08);
+}
+
+/* Return/Back Button styling */
+.back_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.65);
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  color: #191919;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.back_arrow_svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.back_button:hover {
+  background-color: #ffffff;
+  border-color: var(--poke-type-color, #191919);
+  color: var(--poke-type-color, #191919);
+  transform: translateX(-4px);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.back_button:hover .back_arrow_svg {
+  animation: arrowBounce 1s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes arrowBounce {
+  0% {
+    transform: translateX(0) scale(1.05);
+  }
+
+  100% {
+    transform: translateX(-3px) scale(1.05);
+  }
+}
+
+/* Responsiveness adjustments */
+@media (max-width: 768px) {
+  .header_inner {
+    padding: 0 1rem;
+    height: 70px;
+  }
+
+  .header_title {
+    font-size: 1.8rem;
+  }
+
+  .search_container {
+    max-width: 200px;
+  }
+
+  .search_input {
+    height: 38px;
+    font-size: 0.85rem;
+    padding: 0 12px 0 34px;
+  }
+
+  .search_icon {
+    left: 10px;
+    width: 15px;
+    height: 15px;
+  }
+
+  .back_button {
+    width: 38px;
+    height: 38px;
+  }
+
+  .back_arrow_svg {
+    width: 18px;
+    height: 18px;
+  }
+}
