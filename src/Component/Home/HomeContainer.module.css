@@ -1,0 +1,18 @@
+.pokedexContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 34px;
+  width: min(100% - 32px, 1096px);
+  margin: 0 auto;
+  padding: 3rem 0 4rem;
+  justify-items: center;
+}
+
+@media (max-width: 560px) {
+  .pokedexContainer {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100% - 24px, 320px);
+    gap: 24px;
+    padding-top: 2rem;
+  }
+}

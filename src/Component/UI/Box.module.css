@@ -1,0 +1,283 @@
+.card {
+  position: relative;
+  display: block;
+  --entry-x: 100%;
+  --entry-y: 0px;
+  --hover-red: #ff1f2d;
+  width: 100%;
+  max-width: 238px;
+  min-height: 326px;
+  color: var(--black);
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.32) 20%, transparent 36%),
+    linear-gradient(115deg, transparent 0 18%, rgba(255, 255, 255, 0.36) 18% 20%, transparent 20% 100%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.28)),
+    var(--bg-card);
+  border: 1px solid rgba(25, 25, 25, 0.08);
+  border-radius: 26px;
+  box-shadow: 0 18px 36px rgba(25, 25, 25, 0.13);
+  box-sizing: border-box;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  transform-style: preserve-3d;
+  transition:
+    color 240ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+.card::before,
+.card::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  pointer-events: none;
+  z-index: -1;
+  transition: transform 420ms ease, opacity 300ms ease;
+}
+
+.card::before {
+  width: 180px;
+  height: 180px;
+  top: var(--entry-y);
+  left: var(--entry-x);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.82) 0 10%, transparent 11%),
+    radial-gradient(circle, #ff7981 0 12%, var(--hover-red) 45%, #c70018 100%);
+  opacity: 0.34;
+  transform: translate(-50%, -50%) scale(0.42);
+}
+
+.card::after {
+  width: 236px;
+  height: 236px;
+  left: 50%;
+  top: 78px;
+  background:
+    radial-gradient(circle, transparent 0 38%, rgba(255, 255, 255, 0.88) 39% 41%, transparent 42% 100%),
+    conic-gradient(
+      from 18deg,
+      transparent 0 7%,
+      rgba(255, 255, 255, 0.7) 7% 9%,
+      transparent 9% 18%,
+      color-mix(in srgb, var(--pokemon-color) 26%, transparent) 18% 28%,
+      transparent 28% 42%,
+      rgba(255, 255, 255, 0.52) 42% 44%,
+      transparent 44% 62%,
+      color-mix(in srgb, var(--pokemon-color) 34%, transparent) 62% 72%,
+      transparent 72% 100%
+    );
+  border-radius: 42% 58% 50% 50% / 52% 46% 54% 48%;
+  filter: blur(0.2px);
+  opacity: 0.52;
+  transform: translateX(-50%) rotate(-10deg) translateZ(-1px);
+}
+
+.card:hover {
+  color: white;
+  box-shadow:
+    0 28px 54px rgba(255, 31, 45, 0.42),
+    0 16px 22px rgba(25, 25, 25, 0.2);
+  transform: perspective(900px) rotateX(7deg) rotateY(-8deg) translateY(-10px);
+}
+
+.card:hover::before {
+  opacity: 0.94;
+  transform: translate(-50%, -50%) scale(5.4);
+}
+
+.card:hover::after {
+  opacity: 0.86;
+  transform: translateX(-50%) translateY(-16px) rotate(18deg) scale(1.14);
+}
+
+.content {
+  position: relative;
+  display: flex;
+  min-height: inherit;
+  flex-direction: column;
+  align-items: center;
+  padding: 22px 18px 18px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.number {
+  align-self: flex-start;
+  padding: 5px 10px;
+  color: color-mix(in srgb, var(--pokemon-color) 64%, var(--black));
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  transition: color 240ms ease, background 240ms ease;
+}
+
+.card:hover .number {
+  color: var(--pokemon-color);
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.name {
+  width: 100%;
+  margin: 18px 0 8px;
+  color: inherit;
+  font-size: 1.35rem;
+  line-height: 1.08;
+  text-transform: capitalize;
+  transition: transform 300ms ease;
+}
+
+.card:hover .name {
+  transform: translateZ(34px);
+}
+
+.artStage {
+  position: relative;
+  display: grid;
+  width: 168px;
+  height: 168px;
+  margin: 2px auto 16px;
+  place-items: center;
+  transform-style: preserve-3d;
+}
+
+.artStage::before,
+.artStage::after {
+  content: "";
+  position: absolute;
+}
+
+.artStage::before {
+  width: 136px;
+  height: 34px;
+  bottom: 18px;
+  border-radius: 50%;
+  background: rgba(25, 25, 25, 0.16);
+  filter: blur(8px);
+  transform: rotateX(68deg) translateZ(-18px);
+  transition: opacity 280ms ease, transform 300ms ease;
+}
+
+.artStage::after {
+  width: 142px;
+  height: 142px;
+  border-radius: 34px;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(255, 255, 255, 0.76) 47% 53%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, rgba(255, 255, 255, 0.56) 47% 53%, transparent 54%),
+    radial-gradient(circle, transparent 0 34%, rgba(255, 255, 255, 0.9) 35% 38%, transparent 39%),
+    conic-gradient(
+      from 45deg,
+      color-mix(in srgb, var(--pokemon-color) 52%, white),
+      rgba(255, 255, 255, 0.78),
+      color-mix(in srgb, var(--pokemon-color) 70%, #ffffff),
+      rgba(255, 255, 255, 0.62),
+      color-mix(in srgb, var(--pokemon-color) 52%, white)
+    );
+  box-shadow:
+    inset 0 0 0 8px rgba(255, 255, 255, 0.24),
+    0 12px 26px color-mix(in srgb, var(--pokemon-color) 24%, transparent);
+  opacity: 0.56;
+  transform: rotate(12deg) translateZ(4px);
+  transition: opacity 300ms ease, transform 360ms ease;
+}
+
+.pokemonImage {
+  position: relative;
+  z-index: 2;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 14px 12px rgba(25, 25, 25, 0.22));
+  transform: translateZ(22px);
+  transition: filter 300ms ease, transform 360ms cubic-bezier(0.2, 0.85, 0.2, 1.25);
+}
+
+.card:hover .artStage::before {
+  opacity: 0.56;
+  transform: rotateX(68deg) translateY(14px) scale(0.76) translateZ(-28px);
+}
+
+.card:hover .artStage::after {
+  opacity: 0.9;
+  transform: rotate(-10deg) translateY(-12px) scale(1.08) translateZ(28px);
+}
+
+.card:hover .pokemonImage {
+  filter:
+    drop-shadow(0 24px 18px rgba(25, 25, 25, 0.28))
+    drop-shadow(0 0 22px rgba(255, 255, 255, 0.54));
+  transform: translate3d(12px, -28px, 74px) rotateZ(-7deg) scale(1.24);
+}
+
+.footer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding: 14px 14px 0;
+  border-top: 1px solid rgba(25, 25, 25, 0.08);
+  color: rgba(25, 25, 25, 0.76);
+  box-sizing: border-box;
+  font-size: 0.92rem;
+  font-weight: 800;
+  transition: border-color 240ms ease, color 240ms ease, transform 300ms ease;
+}
+
+.card:hover .footer {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.34);
+  transform: translateZ(26px);
+}
+
+.arrow {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: var(--pokemon-color);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  opacity: 0;
+  transform: translateX(-10px) scale(0.82);
+  transition: opacity 240ms ease, transform 300ms ease;
+}
+
+.card:hover .arrow {
+  animation: arrowInvite 820ms ease-in-out infinite;
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+@keyframes arrowInvite {
+  0%,
+  100% {
+    transform: translateX(0) scale(1);
+  }
+
+  50% {
+    transform: translateX(6px) scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::before,
+  .card::after,
+  .name,
+  .artStage::before,
+  .artStage::after,
+  .pokemonImage,
+  .footer,
+  .arrow {
+    animation: none;
+    transition: none;
+  }
+}
