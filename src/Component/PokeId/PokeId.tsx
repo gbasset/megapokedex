@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { baseUrl } from '../../utils/apiAndDatabase';
@@ -7,11 +7,8 @@ import styles from './PodeId.module.css';
 import { UseMainContext } from '../../context/MainContext.jsx';
 import PokeLoader from '../UI/PokeLoader.js';
 
-import Habitat from './Habitat.js';
 import Ability from './Ability.js';
-import Stats from './Stats.js';
 import Varieties from './Varieties.js';
-import Image from '../UI/Image.js';
 import PokemonHeader from './PokemonHeader.tsx';
 import PokemonProfile from './PokemonProfile.tsx';
 import {
@@ -19,8 +16,6 @@ import {
   PokeType,
   sprite
 } from '../../../type-pokemons.ts';
-import SvgMal from './SvgMal.tsx';
-import SvgFemale from './SvgFemale.tsx';
 import Evolutions from './Evolutions.tsx';
 import DecorativeCard from '../UI/DecorativeCard.tsx';
 
@@ -39,7 +34,7 @@ export default function PokeId() {
   const {id} = useParams();
   const [pokemon, setpokemon] = useState<PokeType | undefined>()
   console.log('🚀🐱 😻 --///** ~ file: PokeId.tsx:9 ~ PokeId ~ pokemon:', pokemon)
-  const [elementDescription, setelementDescription] = useState<[flavor_text_entrie | []]>([]);
+  const [elementDescription, setelementDescription] = useState<flavor_text_entrie[]>([]);
 
 
   const [officialArtWork, setofficialArtWork] = useState<sprite['other']['official-artwork'] | undefined>(undefined);
