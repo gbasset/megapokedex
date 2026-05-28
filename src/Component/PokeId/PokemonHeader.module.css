@@ -3,6 +3,36 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+  min-height: 240px;
+  justify-content: center;
+  position: relative;
+}
+
+.headerContent::before,
+.headerContent::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.headerContent::before {
+  left: 7%;
+  top: 18%;
+  width: 76px;
+  height: 76px;
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--card-color) 9%, transparent);
+  transform: rotate(18deg);
+}
+
+.headerContent::after {
+  right: 13%;
+  top: 16%;
+  width: 58px;
+  height: 58px;
+  border: 12px solid color-mix(in srgb, var(--card-color) 10%, transparent);
+  border-radius: 50%;
 }
 
 .nameSection {
@@ -103,6 +133,7 @@
 @media (max-width: 768px) {
   .headerContent {
     gap: 1.1rem;
+    min-height: 220px;
   }
 
   .typeBadge {
@@ -112,5 +143,12 @@
   .typeIcon {
     height: 24px;
     width: 24px;
+  }
+}
+
+@media (max-width: 520px) {
+  .headerContent::before,
+  .headerContent::after {
+    opacity: 0.55;
   }
 }

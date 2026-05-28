@@ -33,7 +33,7 @@ export default function PokemonHeader({ pokemon, flavorText }: PokemonHeaderProp
   };
 
   return (
-    <DecorativeCard color={bgColor} contentClassName={styles.headerContent} pattern="cornerCircle">
+    <DecorativeCard color={bgColor} contentClassName={styles.headerContent} pattern="cardShapes">
       <div className={styles.nameSection}>
         <h1 className={styles.pokemonName}>{pokemon.friendlyName}</h1>
         <span className={styles.pokemonId}>#{pokemon.id.toString().padStart(3, '0')}</span>

@@ -9,16 +9,36 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
   transition: box-shadow 0.3s ease;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .header_contour::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-color: var(--poke-type-color, #DBD8B7);
-  opacity: 0.72;
+  background:
+    radial-gradient(circle at 18% 36%, rgba(255, 255, 255, 0.5), transparent 24%),
+    radial-gradient(circle at 78% 28%, color-mix(in srgb, var(--poke-type-color, #DBD8B7) 28%, transparent), transparent 28%),
+    linear-gradient(135deg, color-mix(in srgb, var(--poke-type-color, #DBD8B7) 78%, white) 0%, rgba(255, 255, 255, 0.74) 100%);
+  opacity: 0.9;
   z-index: -1;
   transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.header_contour::after {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: -48px;
+  height: 86px;
+  background:
+    radial-gradient(ellipse at 22% 0%, rgba(255, 255, 255, 0.96) 0 38%, transparent 39%),
+    radial-gradient(ellipse at 58% 6%, rgba(255, 255, 255, 0.86) 0 34%, transparent 35%),
+    radial-gradient(ellipse at 88% 0%, rgba(255, 255, 255, 0.92) 0 36%, transparent 37%);
+  opacity: 0.88;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .header_inner {
@@ -30,6 +50,35 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+  z-index: 1;
+}
+
+.header_inner::before,
+.header_inner::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.header_inner::before {
+  width: 210px;
+  height: 210px;
+  right: 9%;
+  top: -92px;
+  border: 24px solid color-mix(in srgb, var(--poke-type-color, #DBD8B7) 22%, transparent);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.18);
+}
+
+.header_inner::after {
+  width: 82px;
+  height: 82px;
+  left: 28%;
+  bottom: -46px;
+  border-radius: 28px;
+  background: color-mix(in srgb, var(--poke-type-color, #DBD8B7) 18%, transparent);
+  transform: rotate(18deg);
 }
 
 .header_left {
@@ -67,15 +116,13 @@
 
 .header_title {
   margin: 0;
-  font-family: "Poke Hollow", sans-serif;
+  font-family: "Poke Solid", sans-serif;
   font-size: 2.2rem;
   letter-spacing: 2px;
-  color: #191919;
+  color: #203040;
   text-shadow:
-    1.5px 1.5px 0px rgba(255, 255, 255, 0.9),
-    -1.5px -1.5px 0px rgba(255, 255, 255, 0.9),
-    1.5px -1.5px 0px rgba(255, 255, 255, 0.9),
-    -1.5px 1.5px 0px rgba(255, 255, 255, 0.9);
+    0 3px 0 rgba(255, 255, 255, 0.68),
+    0 10px 22px rgba(32, 48, 64, 0.14);
   transition: text-shadow 0.3s ease;
 }
 
@@ -115,10 +162,11 @@
   font-size: 0.95rem;
   font-weight: 500;
   color: #191919;
-  background-color: rgba(255, 255, 255, 0.65);
-  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.78);
+  border: 1.5px solid rgba(255, 255, 255, 0.72);
   border-radius: 99px;
   outline: none;
+  backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -181,13 +229,14 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.65);
-  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.78);
+  border: 1.5px solid rgba(255, 255, 255, 0.72);
   color: #191919;
   cursor: pointer;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 22px rgba(38, 54, 71, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 .back_arrow_svg {

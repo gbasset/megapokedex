@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode } from 'react';
 import styles from './DecorativeCard.module.css';
 
-type DecorativeCardPattern = 'cornerCircle' | 'pokeball';
+type DecorativeCardPattern = 'cornerCircle' | 'pokeball' | 'cardShapes';
 
 interface DecorativeCardProps {
   children: ReactNode;
@@ -18,9 +18,15 @@ export default function DecorativeCard({
   contentClassName = '',
   pattern = 'cornerCircle',
 }: DecorativeCardProps) {
+  const patternClassByName: Record<DecorativeCardPattern, string> = {
+    cornerCircle: styles.cornerCirclePattern,
+    pokeball: styles.pokeballPattern,
+    cardShapes: styles.cardShapesPattern,
+  };
+
   const cardClassName = [
     styles.decorativeCard,
-    pattern === 'pokeball' ? styles.pokeballPattern : styles.cornerCirclePattern,
+    patternClassByName[pattern],
     className,
   ].filter(Boolean).join(' ');
 
