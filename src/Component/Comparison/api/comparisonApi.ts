@@ -16,6 +16,7 @@ import {
   getTypeLabel,
   sortDamageMultipliers,
 } from '../utils/comparison-calculations';
+import { buildPokemonSprites, getLegacySprites } from '../../../utils/pokemon-sprites';
 
 interface NamedEntry {
   language?: ApiReference;
@@ -153,19 +154,6 @@ function normalizeAbilities(abilities: unknown): ComparisonAbility[] {
     .filter((ability): ability is ComparisonAbility => Boolean(ability));
 }
 
-function getSprite(data: Record<string, unknown>): { sprite: string; animatedSprite: string } {
-  const sprites = isRecord(data.sprites) ? data.sprites : {};
-  const other = isRecord(sprites.other) ? sprites.other : {};
-  const officialArtwork = isRecord(other['official-artwork']) ? other['official-artwork'] : {};
-  const showdown = isRecord(other.showdown) ? other.showdown : {};
-  const fallbackSprite = getString(sprites.front_default);
-
-  return {
-    sprite: getString(officialArtwork.front_default, fallbackSprite),
-    animatedSprite: getString(showdown.front_default, fallbackSprite),
-  };
-}
-
 function normalizeAbilityEffect(data: unknown): string {
   const obj = (data ?? {}) as Record<string, unknown>;
   const effectEntries = getArray(obj.effect_entries);
@@ -229,7 +217,9 @@ export async function fetchComparisonPokemon(pokemonId: number): Promise<Compari
   const pokemonData = (pokemonResponse.data ?? {}) as Record<string, unknown>;
   const speciesData = (speciesResponse.data ?? {}) as Record<string, unknown>;
   const name = getString(pokemonData.name, getString(speciesData.name));
-  const { sprite, animatedSprite } = getSprite(pokemonData);
+  const hasGenderDifferences = speciesData.has_gender_differences === true;
+  const sprites = buildPokemonSprites(pokemonData.sprites, hasGenderDifferences);
+  const { sprite, animatedSprite } = getLegacySprites(sprites);
   const abilities = await hydrateAbilityEffects(normalizeAbilities(pokemonData.abilities));
 
   return {
@@ -238,6 +228,8 @@ export async function fetchComparisonPokemon(pokemonId: number): Promise<Compari
     friendlyName: getFrenchName(speciesData.names, name),
     sprite,
     animatedSprite,
+    sprites,
+    hasGenderDifferences,
     height: getNumber(pokemonData.height) / 10,
     weight: getNumber(pokemonData.weight) / 10,
     baseExperience: getNumber(pokemonData.base_experience),

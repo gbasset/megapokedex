@@ -1,0 +1,116 @@
+.spritePicker {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.spritePreview {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  min-height: clamp(124px, 18vw, 170px);
+  padding: 10px 8px 4px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.spritePreview img {
+  width: clamp(108px, 16vw, 150px);
+  height: clamp(108px, 16vw, 150px);
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 20px 22px rgba(44, 62, 80, 0.18));
+}
+
+.spritePreviewAnimated img {
+  image-rendering: auto;
+}
+
+.spritePreviewLabel {
+  color: rgba(25, 25, 25, 0.62);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.spriteCategoryTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.spriteCategoryTab,
+.spriteCategoryTabActive {
+  border: 1px solid color-mix(in srgb, var(--sprite-accent, var(--blue)) 24%, transparent);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.spriteCategoryTab {
+  background: rgba(255, 255, 255, 0.72);
+  color: rgba(25, 25, 25, 0.72);
+}
+
+.spriteCategoryTabActive {
+  background: color-mix(in srgb, var(--sprite-accent, var(--blue)) 18%, white);
+  color: var(--sprite-accent, var(--blue));
+}
+
+.spriteOptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 8px;
+  max-height: 168px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.spriteOptionsExpanded {
+  max-height: none;
+}
+
+.spriteOption,
+.spriteOptionActive {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  padding: 6px 4px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.58);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.spriteOption:hover,
+.spriteOptionActive {
+  border-color: color-mix(in srgb, var(--sprite-accent, var(--blue)) 34%, transparent);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.spriteOptionActive {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sprite-accent, var(--blue)) 18%, transparent);
+}
+
+.spriteOption img,
+.spriteOptionActive img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.spriteOption span,
+.spriteOptionActive span {
+  color: rgba(25, 25, 25, 0.62);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}

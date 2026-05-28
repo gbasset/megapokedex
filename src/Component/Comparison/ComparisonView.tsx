@@ -2,6 +2,7 @@ import { type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { ComparisonDashboard } from './types/comparison.types';
 import DamageBadges from './DamageBadges';
+import PokemonSpritePicker from '../UI/PokemonSpritePicker';
 import RadarChart from './RadarChart';
 import StatBars from './StatBars';
 import styles from './Comparison.module.css';
@@ -35,28 +36,32 @@ export default function ComparisonView({ dashboard }: ComparisonViewProps) {
     <div className={styles.dashboard} style={{ '--comparison-color': comparisonColor } as CSSProperties}>
       <section className={styles.heroGrid}>
         {[firstPokemon, secondPokemon].map((pokemon) => (
-          <Link
-            key={pokemon.id}
-            to={`/poke/${pokemon.id}`}
-            className={styles.pokemonHeroLink}
-            aria-label={`Voir le pokémon`}
-          >
-            <article className={styles.pokemonHero}>
-              <img src={pokemon.animatedSprite || pokemon.sprite} alt={pokemon.friendlyName} />
-              <div>
-                <span>#{pokemon.id.toString().padStart(3, '0')}</span>
-                <h2>{pokemon.friendlyName}</h2>
-                <div className={styles.typeList}>
-                  {pokemon.types.map((type) => (
-                    <span key={type.name} style={{ '--type-color': type.color } as CSSProperties}>
-                      {type.label}
-                    </span>
-                  ))}
-                </div>
-                <span className={styles.pokemonHeroCta}>Voir le pokémon →</span>
+          <article key={pokemon.id} className={styles.pokemonHero}>
+            <PokemonSpritePicker
+              sprites={pokemon.sprites}
+              pokemonId={pokemon.id}
+              friendlyName={pokemon.friendlyName}
+              accentColor={pokemon.types[0]?.color}
+            />
+            <div className={styles.pokemonHeroInfo}>
+              <span>#{pokemon.id.toString().padStart(3, '0')}</span>
+              <h2>{pokemon.friendlyName}</h2>
+              <div className={styles.typeList}>
+                {pokemon.types.map((type) => (
+                  <span key={type.name} style={{ '--type-color': type.color } as CSSProperties}>
+                    {type.label}
+                  </span>
+                ))}
               </div>
-            </article>
-          </Link>
+              <Link
+                to={`/poke/${pokemon.id}`}
+                className={styles.pokemonHeroCta}
+                aria-label={`Voir la fiche de ${pokemon.friendlyName}`}
+              >
+                Voir le pokémon →
+              </Link>
+            </div>
+          </article>
         ))}
       </section>
 

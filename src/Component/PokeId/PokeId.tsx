@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { baseUrl } from '../../utils/apiAndDatabase';
-import { getNameInOtherLanguage, getPrincipalSpriteFrontPokemon } from '../../utils/transform';
+import { getNameInOtherLanguage } from '../../utils/transform';
 import styles from './PodeId.module.css';
 import { UseMainContext } from '../../context/MainContext.jsx';
 import PokeLoader from '../UI/PokeLoader.js';
@@ -14,7 +14,6 @@ import PokemonProfile from './PokemonProfile.tsx';
 import {
   flavor_text_entrie,
   PokeType,
-  sprite
 } from '../../../type-pokemons.ts';
 import Evolutions from './Evolutions.tsx';
 import DecorativeCard from '../UI/DecorativeCard.tsx';
@@ -37,7 +36,6 @@ export default function PokeId() {
   const [elementDescription, setelementDescription] = useState<flavor_text_entrie[]>([]);
 
 
-  const [officialArtWork, setofficialArtWork] = useState<sprite['other']['official-artwork'] | undefined>(undefined);
   const [isLoading, setisLoading] = useState(true);
   function getFavoriteText (poke: PokeType | any, idLanguage: string){
     const txtFav = poke.flavor_text_entries.filter((txt:flavor_text_entrie )=> txt.language.name === idLanguage);
@@ -61,7 +59,6 @@ export default function PokeId() {
           setpokemon(elementPoke);
           setmainInformationPokemonSelected(elementPoke);
         setelementDescription(getFavoriteText(elementPoke, 'fr'))
-        setofficialArtWork(getPrincipalSpriteFrontPokemon(elementPoke));
         }
       )
     })
@@ -92,7 +89,6 @@ useEffect(()=> {
     {!isLoading && pokemon && (
       <PokemonProfile
         pokemon={pokemon}
-        officialArtWork={officialArtWork}
         isShinny={isShinny}
         genre={genre}
         handleChooseShiny={handleChooseShiny}

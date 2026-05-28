@@ -1,13 +1,19 @@
-import React from 'react';
-import { PokeType, sprite } from '../../../type-pokemons.ts';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { PokeType } from '../../../type-pokemons.ts';
 import Image from '../UI/Image.js';
+import PokemonSpritePicker from '../UI/PokemonSpritePicker';
 import Stats from './Stats.js';
 import Habitat from './Habitat.js';
+import { PokemonSpriteOption } from '../../types/pokemon-sprites.types';
+import {
+  buildPokemonSprites,
+  findSpriteIdForPreferences,
+  getDefaultArtworkSpriteId,
+} from '../../utils/pokemon-sprites';
 import styles from './PokemonProfile.module.css';
 
 interface PokemonProfileProps {
   pokemon: PokeType | undefined;
-  officialArtWork: sprite['other']['official-artwork'] | undefined;
   isShinny: boolean;
   genre: string;
   handleChooseShiny: () => void;
@@ -54,23 +60,50 @@ const SvgFemale = () => (
 
 export default function PokemonProfile({
   pokemon,
-  officialArtWork,
   isShinny,
   genre,
   handleChooseShiny,
   setGenre,
   color,
-  hasGenderDifferences
+  hasGenderDifferences,
 }: PokemonProfileProps) {
-  if (!pokemon) return null;
+  const sprites = useMemo(
+    () => (pokemon ? buildPokemonSprites(pokemon.sprites, hasGenderDifferences) : []),
+    [pokemon, hasGenderDifferences],
+  );
 
-  const selectedArtwork = isShinny
-    ? genre === 'female'
-      ? officialArtWork?.front_shiny_female
-      : officialArtWork?.front_shiny
-    : genre === 'female'
-      ? officialArtWork?.front_female
-      : officialArtWork?.front_default;
+  const [selectedSpriteId, setSelectedSpriteId] = useState(() => getDefaultArtworkSpriteId(sprites));
+
+  useEffect(() => {
+    setSelectedSpriteId(getDefaultArtworkSpriteId(sprites));
+  }, [pokemon?.id, sprites]);
+
+  useEffect(() => {
+    if (!sprites.length) {
+      return;
+    }
+
+    const artworkSpriteId = findSpriteIdForPreferences(sprites, {
+      isShiny: isShinny,
+      isFemale: genre === 'female',
+      category: 'artwork',
+    });
+
+    setSelectedSpriteId(artworkSpriteId);
+  }, [isShinny, genre, sprites]);
+
+  const selectedSprite = useMemo(
+    () => sprites.find((sprite) => sprite.id === selectedSpriteId) ?? sprites[0],
+    [sprites, selectedSpriteId],
+  );
+
+  const handleSpriteChange = useCallback((sprite: PokemonSpriteOption) => {
+    setSelectedSpriteId(sprite.id);
+  }, []);
+
+  if (!pokemon || !selectedSprite) {
+    return null;
+  }
 
   return (
     <div className={styles.profileContainer} style={{ '--pokemon-color': color } as React.CSSProperties}>
@@ -87,28 +120,29 @@ export default function PokemonProfile({
         <div className={styles.imageSection}>
           <div className={styles.imageWrapper}>
             <Image
-              className={styles.pokemonImage}
+              className={selectedSprite.isAnimated ? `${styles.pokemonImage} ${styles.pokemonImageAnimated}` : styles.pokemonImage}
               placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
               errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-              src={selectedArtwork ?? undefined}
+              src={selectedSprite.url}
             />
+            <span className={styles.selectedSpriteLabel}>{selectedSprite.label}</span>
           </div>
 
           <div className={styles.buttonsContainer}>
-            <button 
+            <button
               onClick={handleChooseShiny}
               className={styles.actionButton}
               aria-label={isShinny ? 'Afficher la version normale' : 'Afficher la version shiny'}
               style={{ backgroundColor: isShinny ? 'var(--darkyellow, #FFD700)' : 'var(--blue, #4169E1)' }}
             >
-              <img 
+              <img
                 className={styles.buttonIcon}
-                src="https://raw.githubusercontent.com/msikma/pokesprite/master/misc/special-attribute/shiny-stars.png" 
-                alt="Shiny" 
+                src="https://raw.githubusercontent.com/msikma/pokesprite/master/misc/special-attribute/shiny-stars.png"
+                alt="Shiny"
                 height={25}
               />
             </button>
-            
+
             {hasGenderDifferences && (
               <button
                 onClick={() => setGenre(genre === 'female' ? 'normal' : 'female')}
@@ -121,6 +155,18 @@ export default function PokemonProfile({
               </button>
             )}
           </div>
+
+          <PokemonSpritePicker
+            sprites={sprites}
+            pokemonId={pokemon.id}
+            friendlyName={pokemon.friendlyName}
+            showPreview={false}
+            expandOptions
+            selectedSpriteId={selectedSpriteId}
+            defaultSpriteId={getDefaultArtworkSpriteId(sprites)}
+            onSpriteChange={handleSpriteChange}
+            accentColor={color}
+          />
         </div>
 
         <div className={styles.characteristicsSection}>

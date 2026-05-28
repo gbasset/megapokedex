@@ -38,12 +38,22 @@ export interface ComparisonMove {
   url: string;
 }
 
+import type {
+  PokemonSpriteCategory,
+  PokemonSpriteOption,
+} from '../../../types/pokemon-sprites.types';
+
+export type ComparisonSpriteCategory = PokemonSpriteCategory;
+export type ComparisonSpriteOption = PokemonSpriteOption;
+
 export interface ComparisonPokemon {
   id: number;
   name: string;
   friendlyName: string;
   sprite: string;
   animatedSprite: string;
+  sprites: PokemonSpriteOption[];
+  hasGenderDifferences: boolean;
   height: number;
   weight: number;
   baseExperience: number;

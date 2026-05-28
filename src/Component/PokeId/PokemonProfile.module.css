@@ -90,6 +90,19 @@
   filter: drop-shadow(0 24px 28px rgba(44, 62, 80, 0.22));
 }
 
+.pokemonImageAnimated {
+  image-rendering: auto;
+}
+
+.selectedSpriteLabel {
+  display: block;
+  margin-top: 0.65rem;
+  color: rgba(44, 62, 80, 0.62);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: center;
+}
+
 .buttonsContainer {
   display: flex;
   gap: 0.75rem;
