@@ -1,7 +1,6 @@
 import React from 'react';
 import { PokeType, flavor_text_entrie } from '../../../type-pokemons.ts';
 import { colorByPokemonTypes } from '../../utils/apiAndDatabase';
-import { v4 as uuidv4 } from 'uuid';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import styles from './PokemonHeader.module.css';
 
@@ -10,17 +9,27 @@ interface PokemonHeaderProps {
   flavorText: [flavor_text_entrie | []] | flavor_text_entrie[];
 }
 
+interface PokemonTypeSlot {
+  type?: {
+    name?: unknown;
+  };
+}
+
+function getPokemonTypeName(element: object): string | undefined {
+  const typeSlot = element as PokemonTypeSlot;
+  return typeof typeSlot.type?.name === 'string' ? typeSlot.type.name : undefined;
+}
+
 export default function PokemonHeader({ pokemon, flavorText }: PokemonHeaderProps) {
   if (!pokemon) return null;
 
-  // Get the first type for background color
-  const primaryType = (pokemon as any).types[0]?.type?.name;
+  const primaryType = pokemon.types[0] ? getPokemonTypeName(pokemon.types[0]) : undefined;
   const typeData = colorByPokemonTypes.find(t => t.type === primaryType);
   const bgColor = typeData?.color || '#f5f5f5';
 
-  // Function to get type data
-  const getTypeData = (element: any) => {
-    return colorByPokemonTypes.find((x: any) => x.type === element.type.name);
+  const getTypeData = (element: object) => {
+    const typeName = getPokemonTypeName(element);
+    return colorByPokemonTypes.find(x => x.type === typeName);
   };
 
   return (
@@ -36,7 +45,7 @@ export default function PokemonHeader({ pokemon, flavorText }: PokemonHeaderProp
       <div className={styles.typesContainer}>
         {pokemon.types.map((x, i) => {
           const type = getTypeData(x);
-          const idV = uuidv4();
+          const idV = `pokemon-type-${pokemon.id}-${i}`;
           return (
             <div 
               key={i} 

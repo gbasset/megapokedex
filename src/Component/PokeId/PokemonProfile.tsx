@@ -1,5 +1,5 @@
 import React from 'react';
-import { PokeType } from '../../../type-pokemons.ts';
+import { PokeType, sprite } from '../../../type-pokemons.ts';
 import Image from '../UI/Image.js';
 import Stats from './Stats.js';
 import Habitat from './Habitat.js';
@@ -7,7 +7,7 @@ import styles from './PokemonProfile.module.css';
 
 interface PokemonProfileProps {
   pokemon: PokeType | undefined;
-  officialArtWork: any;
+  officialArtWork: sprite['other']['official-artwork'] | undefined;
   isShinny: boolean;
   genre: string;
   handleChooseShiny: () => void;
@@ -64,14 +64,17 @@ export default function PokemonProfile({
 }: PokemonProfileProps) {
   if (!pokemon) return null;
 
-  // Get primary type color for styling
-  const primaryType = (pokemon as any).types[0]?.type?.name;
+  const selectedArtwork = isShinny
+    ? genre === 'female'
+      ? officialArtWork?.front_shiny_female
+      : officialArtWork?.front_shiny
+    : genre === 'female'
+      ? officialArtWork?.front_female
+      : officialArtWork?.front_default;
 
   return (
-    <div className={styles.profileContainer}>
-      {/* Main flex container: Stats | Image | Characteristics */}
+    <div className={styles.profileContainer} style={{ '--pokemon-color': color } as React.CSSProperties}>
       <div className={styles.mainContent}>
-        {/* Left: Stats */}
         <div className={styles.statsSection}>
           <div className={styles.sectionHeader}>
             <h3 className={styles.sectionTitle}>Statistiques de base</h3>
@@ -81,48 +84,21 @@ export default function PokemonProfile({
           </div>
         </div>
 
-        {/* Center: Image */}
         <div className={styles.imageSection}>
           <div className={styles.imageWrapper}>
-            {isShinny && genre === 'female' && (
-              <Image
-                className={styles.pokemonImage}
-                placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-                errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-                src={officialArtWork?.front_shiny_female ?? undefined}
-              />
-            )}
-            {isShinny && genre !== 'female' && (
-              <Image
-                className={styles.pokemonImage}
-                placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-                errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-                src={officialArtWork?.front_shiny ?? undefined}
-              />
-            )}
-            {!isShinny && genre === 'female' && (
-              <Image
-                className={styles.pokemonImage}
-                placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-                errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-                src={officialArtWork?.front_female ?? undefined}
-              />
-            )}
-            {!isShinny && genre !== 'female' && (
-              <Image
-                className={styles.pokemonImage}
-                placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-                errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
-                src={officialArtWork?.front_default ?? undefined}
-              />
-            )}
+            <Image
+              className={styles.pokemonImage}
+              placeholderImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+              errorImg='https://via.placeholder.com/479x479.png/f9f9f9/FFF?text=Chargement+du+media'
+              src={selectedArtwork ?? undefined}
+            />
           </div>
 
-          {/* Action Buttons below image */}
           <div className={styles.buttonsContainer}>
             <button 
-              onClick={() => handleChooseShiny()} 
+              onClick={handleChooseShiny}
               className={styles.actionButton}
+              aria-label={isShinny ? 'Afficher la version normale' : 'Afficher la version shiny'}
               style={{ backgroundColor: isShinny ? 'var(--darkyellow, #FFD700)' : 'var(--blue, #4169E1)' }}
             >
               <img 
@@ -134,7 +110,11 @@ export default function PokemonProfile({
             </button>
             
             {hasGenderDifferences && (
-              <button onClick={() => setGenre(genre === 'female' ? 'normal' : 'female')} className={styles.actionButton}>
+              <button
+                onClick={() => setGenre(genre === 'female' ? 'normal' : 'female')}
+                className={styles.actionButton}
+                aria-label={genre === 'female' ? 'Afficher la version mâle' : 'Afficher la version femelle'}
+              >
                 {genre === 'female' ? 'Femelle' : 'Mâle'}
                 {genre !== 'female' && <SvgMal />}
                 {genre === 'female' && <SvgFemale />}
@@ -143,7 +123,6 @@ export default function PokemonProfile({
           </div>
         </div>
 
-        {/* Right: Characteristics */}
         <div className={styles.characteristicsSection}>
           <div className={styles.sectionHeader}>
             <h3 className={styles.sectionTitle}>Caractéristiques</h3>

@@ -1,13 +1,14 @@
 .elementStatContainer {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.9rem;
 }
 
 .statItem {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
+  padding: 0.4rem 0.2rem;
 }
 
 .statLabel {
@@ -17,6 +18,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .statLabel span:first-child {
@@ -28,28 +30,34 @@
   font-weight: 500;
 }
 
-/* Progress bar container */
 .progressContainer {
   width: 100%;
 }
 
-.progressContainer .container {
+.progressContainer :global(.container) {
   width: 100%;
 }
 
-.progressContainer .progress-bar {
+.progressContainer :global(.progress-bar) {
   width: 100%;
-  height: 20px;
+  height: 16px;
   border-radius: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: #e8e8e8;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(44, 62, 80, 0.1);
+  background-color: #edf1f5;
+  box-shadow: inset 0 1px 3px rgba(44, 62, 80, 0.12);
+  overflow: hidden;
 }
 
-.progressContainer .range {
+.progressContainer :global(.range) {
   height: 100%;
   border-radius: inherit;
   transition: width 0.5s ease;
   animation: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 8px rgba(44, 62, 80, 0.18);
+}
+
+@media (max-width: 480px) {
+  .statLabel {
+    font-size: 0.85rem;
+  }
 }

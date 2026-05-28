@@ -1,27 +1,36 @@
-import React, { Fragment, useEffect ,useState} from 'react'
+import { Fragment, useEffect ,useState} from 'react'
 import axios from 'axios';
-import styles from './PodeId.module.css';
- type Habitat = {
+import styles from './PokemonProfile.module.css';
+
+type Habitat = {
   name? : string;
   url : string;
   }
+
+interface HabitatName {
+  name?: unknown;
+  language?: {
+    name?: unknown;
+  };
+}
   
   export default function Habitat({url} : Habitat) {
-      console.log('🚀🐱 😻 --///** ~ file: Habitat.tsx:10 ~ Habitat ~ url:', url)
-      const [habitat, setHabitat] = useState([]);
+      const [habitat, setHabitat] = useState<string[]>([]);
      
 
     useEffect(()=>{
       axios.get(url)
       .then(x => {
-        const data = x.data.names;
+        const response = (x.data ?? {}) as Record<string, unknown>;
+        const data = Array.isArray(response.names) ? response.names : [];
         const sumOfHabit = data.reduce(
-          (accumulator:Array<string>, currentValue: any) => {
-            if(currentValue.language.name === 'fr'){
+          (accumulator:Array<string>, currentValue: unknown) => {
+            const habitatName = currentValue as HabitatName;
+            if(habitatName.language?.name === 'fr' && typeof habitatName.name === 'string'){
               if(accumulator !== undefined){
-                return accumulator = [...accumulator, currentValue.name];
+                return accumulator = [...accumulator, habitatName.name];
               }else{
-                accumulator = [currentValue.name];
+                accumulator = [habitatName.name];
               }
             }
             return accumulator;
@@ -42,11 +51,13 @@ import styles from './PodeId.module.css';
     
     return (
      
-      <div className={styles.container_element}>
-      <span>Habitat : </span>  {habitat.map((x, i) => {
-        return <Fragment key={i}>{x}</Fragment>
-      })} 
-      
+      <div className={styles.characteristicItem}>
+        <span className={styles.characteristicLabel}>Habitat :</span>
+        <span className={styles.characteristicValue}>
+          {habitat.map((x, i) => {
+            return <Fragment key={i}>{x}</Fragment>
+          })}
+        </span>
       </div>
       )
     }
