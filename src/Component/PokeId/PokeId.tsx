@@ -141,7 +141,7 @@ useEffect(()=> {
             </div>
           </DecorativeCard>
         )}
-        <Evolutions url={pokemon.evolution_chain.url} pokemon={pokemon}/>
+        <Evolutions url={pokemon.evolution_chain.url} pokemon={pokemon} color={color}/>
       </>
     )}
       </div>

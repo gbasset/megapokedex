@@ -1,0 +1,364 @@
+.evolutionsContent {
+    position: relative;
+}
+
+.header {
+    margin-bottom: 1.5rem;
+    position: relative;
+    text-align: center;
+    z-index: 2;
+}
+
+.eyebrow {
+    color: var(--card-color);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.header h2 {
+    color: #263647;
+    font-family: 'Poke Solid', sans-serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    letter-spacing: 1px;
+    margin: 0.3rem 0 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.header h2::after {
+    background: var(--card-color);
+    border-radius: 999px;
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--card-color) 26%, transparent);
+    content: '';
+    display: block;
+    height: 5px;
+    margin: 0.5rem auto 0;
+    width: 78px;
+}
+
+.header p {
+    color: #5f6d78;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0.8rem auto 0;
+    max-width: 560px;
+}
+
+.treeViewport {
+    overflow-x: auto;
+    padding: 0.5rem 0.25rem 0.25rem;
+    position: relative;
+    z-index: 2;
+}
+
+.tree {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    min-width: max-content;
+    padding: 0;
+}
+
+.node {
+    align-items: center;
+    display: flex;
+    gap: clamp(1rem, 3vw, 1.5rem);
+    list-style: none;
+}
+
+.nodeMain {
+    align-items: center;
+    display: flex;
+    gap: 0.85rem;
+}
+
+.children {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.children::before {
+    background: color-mix(in srgb, var(--card-color) 34%, transparent);
+    border-radius: 999px;
+    content: '';
+    height: calc(100% - 64px);
+    left: -0.75rem;
+    min-height: 34px;
+    position: absolute;
+    top: 32px;
+    width: 3px;
+}
+
+.connector {
+    align-items: center;
+    display: flex;
+    gap: 0.4rem;
+}
+
+.connectorLine {
+    background: color-mix(in srgb, var(--card-color) 44%, transparent);
+    border-radius: 999px;
+    display: block;
+    height: 3px;
+    position: relative;
+    width: clamp(34px, 5vw, 58px);
+}
+
+.connectorLine::after {
+    border-right: 3px solid color-mix(in srgb, var(--card-color) 60%, transparent);
+    border-top: 3px solid color-mix(in srgb, var(--card-color) 60%, transparent);
+    content: '';
+    height: 10px;
+    position: absolute;
+    right: 1px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 10px;
+}
+
+.conditionBadge {
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid color-mix(in srgb, var(--card-color) 24%, transparent);
+    border-radius: 999px;
+    box-shadow: 0 8px 18px rgba(38, 54, 71, 0.08);
+    color: #263647;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 0.35rem 0.65rem;
+    white-space: nowrap;
+}
+
+.activeConnector .connectorLine {
+    background: var(--card-color);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--card-color) 12%, transparent);
+}
+
+.activeConnector .connectorLine::after {
+    border-color: var(--card-color);
+}
+
+.activeConnector .conditionBadge {
+    background: var(--card-color);
+    border-color: var(--card-color);
+    color: white;
+}
+
+.evolutionCard {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    box-sizing: border-box;
+    color: #263647;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    min-height: 196px;
+    padding: 0.25rem 0.15rem 0;
+    position: relative;
+    text-decoration: none;
+    transition: transform 0.25s ease;
+    width: 156px;
+}
+
+.evolutionCard:hover {
+    transform: translateY(-4px);
+}
+
+.evolutionCard:hover .spriteFrame {
+    box-shadow:
+        inset -16px -20px 28px rgba(38, 54, 71, 0.16),
+        inset 14px 16px 28px rgba(255, 255, 255, 0.72),
+        0 20px 42px rgba(38, 54, 71, 0.2);
+}
+
+.activeEvolutionCard {
+    transform: translateY(-6px);
+}
+
+.activeEvolutionCard .spriteFrame {
+    border-color: var(--card-color);
+    box-shadow:
+        inset -18px -22px 30px rgba(38, 54, 71, 0.16),
+        inset 16px 18px 30px rgba(255, 255, 255, 0.78),
+        0 22px 46px color-mix(in srgb, var(--card-color) 28%, transparent),
+        0 0 0 8px color-mix(in srgb, var(--card-color) 14%, transparent);
+}
+
+.activeLabel {
+    background: var(--card-color);
+    border-radius: 999px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    padding: 0.28rem 0.55rem;
+    position: absolute;
+    right: 0.1rem;
+    text-transform: uppercase;
+    top: 0.5rem;
+    z-index: 4;
+}
+
+.pokemonId {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid color-mix(in srgb, var(--card-color) 22%, transparent);
+    border-radius: 999px;
+    box-shadow: 0 8px 18px rgba(38, 54, 71, 0.08);
+    color: #263647;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 900;
+    left: 0.1rem;
+    padding: 0.28rem 0.5rem;
+    position: absolute;
+    top: 0.5rem;
+    z-index: 4;
+}
+
+.spriteFrame {
+    align-items: center;
+    background:
+        radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.94) 0 10%, transparent 11%),
+        linear-gradient(
+            180deg,
+            color-mix(in srgb, var(--card-color) 62%, #ff4d4d) 0 47%,
+            #263647 47% 53%,
+            color-mix(in srgb, var(--card-color) 42%, #ff6b6b) 53% 100%
+        );
+    border: 4px solid rgba(255, 255, 255, 0.96);
+    border-radius: 50%;
+    box-shadow:
+        inset -16px -20px 28px rgba(38, 54, 71, 0.14),
+        inset 14px 16px 28px rgba(255, 255, 255, 0.68),
+        0 16px 34px rgba(38, 54, 71, 0.16);
+    display: flex;
+    height: 144px;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    width: 144px;
+}
+
+.spriteFrame::before {
+    background: rgba(255, 255, 255, 0.9);
+    border: 5px solid #263647;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 4px rgba(255, 255, 255, 0.72),
+        inset 0 0 0 5px color-mix(in srgb, var(--card-color) 12%, transparent);
+    content: '';
+    height: 34px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 34px;
+    z-index: 1;
+}
+
+.sprite {
+    filter: drop-shadow(0 10px 12px rgba(38, 54, 71, 0.24));
+    max-height: 112px;
+    max-width: 112px;
+    object-fit: contain;
+    position: relative;
+    transform: translateY(-2px);
+    z-index: 2;
+}
+
+.spriteFallback {
+    color: var(--card-color);
+    font-family: 'Poke Solid', sans-serif;
+    font-size: 2.2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.pokemonName {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid color-mix(in srgb, var(--card-color) 22%, transparent);
+    border-radius: 999px;
+    box-shadow: 0 10px 22px rgba(38, 54, 71, 0.11);
+    font-family: 'Poke Solid', sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.2;
+    max-width: 100%;
+    padding: 0.35rem 0.7rem;
+    text-align: center;
+}
+
+.loadingState {
+    color: #5f6d78;
+    font-family: 'Roboto', sans-serif;
+    padding: 2rem 0;
+    position: relative;
+    text-align: center;
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .tree {
+        justify-content: flex-start;
+    }
+
+    .node {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .nodeMain {
+        align-items: center;
+    }
+
+    .children {
+        margin-left: 1.1rem;
+    }
+
+    .children::before {
+        left: -0.55rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .connectorLine {
+        width: 30px;
+    }
+
+    .conditionBadge {
+        font-size: 0.72rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .evolutionCard {
+        min-height: 176px;
+        width: 136px;
+    }
+
+    .spriteFrame {
+        height: 124px;
+        width: 124px;
+    }
+
+    .spriteFrame::before {
+        height: 28px;
+        width: 28px;
+    }
+
+    .sprite {
+        max-height: 96px;
+        max-width: 96px;
+    }
+}
