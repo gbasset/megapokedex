@@ -1,0 +1,75 @@
+.decorativeCard {
+  width: min(100% - 2rem, 920px);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  margin: 1rem auto 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.74) 100%);
+  border: 1px solid color-mix(in srgb, var(--card-color) 38%, transparent);
+  border-radius: 28px;
+  box-shadow: 0 18px 55px rgba(38, 54, 71, 0.14);
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+
+.decorativeCard::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 8px;
+  background: var(--card-color);
+}
+
+.decorativeCard::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.cornerCirclePattern {
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--card-color) 24%, transparent), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.78) 100%);
+}
+
+.cornerCirclePattern::after {
+  right: -64px;
+  bottom: -92px;
+  width: 220px;
+  height: 220px;
+  border: 28px solid color-mix(in srgb, var(--card-color) 18%, transparent);
+  opacity: 0.75;
+}
+
+.pokeballPattern {
+  background:
+    radial-gradient(circle at 86% 54%, rgba(255, 255, 255, 0.75) 0 13%, transparent 13.5%),
+    radial-gradient(circle at 86% 54%, color-mix(in srgb, var(--card-color) 12%, transparent) 0 29%, transparent 29.5%),
+    radial-gradient(circle at 14% 22%, color-mix(in srgb, var(--card-color) 16%, transparent), transparent 28%),
+    radial-gradient(circle at 24% 84%, color-mix(in srgb, var(--card-color) 10%, transparent), transparent 22%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.72) 100%);
+}
+
+.pokeballPattern::after {
+  right: -78px;
+  bottom: -116px;
+  width: 285px;
+  height: 285px;
+  border: 32px solid color-mix(in srgb, var(--card-color) 16%, transparent);
+  box-shadow:
+    inset 0 0 0 24px rgba(255, 255, 255, 0.28),
+    0 0 0 18px color-mix(in srgb, var(--card-color) 5%, transparent);
+  opacity: 0.95;
+}
+
+@media (max-width: 768px) {
+  .decorativeCard {
+    width: calc(100% - 1rem);
+    margin: 0.5rem auto 1rem;
+  }
+}

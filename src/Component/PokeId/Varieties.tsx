@@ -1,41 +1,56 @@
-import React ,{useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios';
-import styles from './PodeId.module.css';
+import styles from './Varieties.module.css';
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import { v4 as uuidv4 } from 'uuid';
 import { colorByPokemonTypes} from '../../utils/apiAndDatabase';
 import { Variety ,PokeType} from '../../../type-pokemons';
-type PropsVariety = {
+
+interface PropsVariety {
   variety: Variety;
 }
+
+interface PokemonTypeSlot {
+  type?: {
+    name?: unknown;
+  };
+}
+
+function getPokemonTypeName(element: object): string | undefined {
+  const typeSlot = element as PokemonTypeSlot;
+  return typeof typeSlot.type?.name === 'string' ? typeSlot.type.name : undefined;
+}
+
 export default function Varieties({variety}:PropsVariety) {
-    function getTypeData (element: any){
-        const elementType = colorByPokemonTypes.find( x=> x.type === element.type.name) ;
+    function getTypeData (element: object){
+        const elementType = colorByPokemonTypes.find( x=> x.type === getPokemonTypeName(element)) ;
         return elementType;
       }
     const [pokemonCurrent, setpokemonCurrent] = useState<PokeType>()
     useEffect(()=>{
         axios.get(variety.pokemon.url)
         .then(x => {
-          const data = x.data;
-          console.log('🚀🐱 😻 --///** ~ file: Varieties.tsx:9 ~ useEffect ~ data:', data)
-          setpokemonCurrent(x.data)
+          setpokemonCurrent(x.data as PokeType)
         
         })
         .catch(err => {
           console.error(err);
         })
-      },[]);
+      },[variety.pokemon.url]);
+
+  const defaultSprite = pokemonCurrent?.sprites?.front_default;
+  const shinySprite = pokemonCurrent?.sprites?.front_shiny;
+
   return (
-    <div>
-        <h3>Vartiétés</h3>
-       {variety.pokemon.name}
-       <h3># {pokemonCurrent?.id}</h3>
+    <article className={styles.varietyCard}>
+        <div className={styles.varietyInfo}>
+          <span className={styles.varietyName}>{variety.pokemon.name}</span>
+          {pokemonCurrent?.id && <span className={styles.varietyId}>#{pokemonCurrent.id.toString().padStart(3, '0')}</span>}
+        </div>
        <div className={styles.types}>
              {pokemonCurrent?.types.map((x ,i)=> {
               const type  = getTypeData(x);
-              const idV = uuidv4();
-                return <div key={i} className={styles.pokemon_types} data-tooltip-id={idV}
+              const idV = `variety-type-${pokemonCurrent.id}-${i}`;
+                return <div key={i} className={styles.pokemonTypes} data-tooltip-id={idV}
                 data-tooltip-content={type?.label}
                 >
                 <ReactTooltip
@@ -48,13 +63,13 @@ export default function Varieties({variety}:PropsVariety) {
             )}
              </div>
              {pokemonCurrent &&
-                <>
-                { pokemonCurrent.sprites?.front_default !== null &&
-                <img src={pokemonCurrent?.sprites?.front_default} alt="" style={{ height: '150px' }} />}
-              { pokemonCurrent.sprites?.front_shiny !== null &&
-                <img src={pokemonCurrent?.sprites?.front_shiny} alt="" style={{ height: '150px' }} />}
-                </>
+                <div className={styles.sprites}>
+                { defaultSprite &&
+                <img src={defaultSprite} alt={`${variety.pokemon.name} normal`} className={styles.sprite} />}
+              { shinySprite &&
+                <img src={shinySprite} alt={`${variety.pokemon.name} shiny`} className={styles.sprite} />}
+                </div>
              }
-        </div>
+        </article>
   )
 }

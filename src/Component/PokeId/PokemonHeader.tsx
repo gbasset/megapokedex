@@ -1,6 +1,6 @@
-import React from 'react';
 import { PokeType, flavor_text_entrie } from '../../../type-pokemons.ts';
 import { colorByPokemonTypes } from '../../utils/apiAndDatabase';
+import DecorativeCard from '../UI/DecorativeCard.tsx';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import styles from './PokemonHeader.module.css';
 
@@ -33,10 +33,7 @@ export default function PokemonHeader({ pokemon, flavorText }: PokemonHeaderProp
   };
 
   return (
-    <div 
-      className={styles.headerContainer}
-      style={{ '--bg-color': bgColor } as React.CSSProperties}
-    >
+    <DecorativeCard color={bgColor} contentClassName={styles.headerContent} pattern="cornerCircle">
       <div className={styles.nameSection}>
         <h1 className={styles.pokemonName}>{pokemon.friendlyName}</h1>
         <span className={styles.pokemonId}>#{pokemon.id.toString().padStart(3, '0')}</span>
@@ -78,6 +75,6 @@ export default function PokemonHeader({ pokemon, flavorText }: PokemonHeaderProp
           <p className={styles.flavorText}>Aucune description disponible</p>
         )}
       </div>
-    </div>
+    </DecorativeCard>
   );
 }

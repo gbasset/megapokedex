@@ -30,6 +30,90 @@
     flex-direction: column;
     justify-content: space-between;
 }
+.abilitiesContainer {
+    position: relative;
+}
+
+.abilitiesHeader {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.abilitiesEyebrow {
+    color: var(--card-color);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.abilitiesHeader h3 {
+    color: var(--card-color);
+    font-family: 'Poke Solid', sans-serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    letter-spacing: 1px;
+    margin: 0.3rem 0 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.abilitiesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.varietiesContainer {
+    position: relative;
+}
+
+.varietiesHeader {
+    text-align: center;
+    margin-bottom: 1.35rem;
+    position: relative;
+    z-index: 2;
+}
+
+.varietiesEyebrow {
+    color: #5f6d78;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.varietiesHeader h3 {
+    color: #263647;
+    font-family: 'Poke Solid', sans-serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    letter-spacing: 1px;
+    margin: 0.3rem 0 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.varietiesHeader h3::after {
+    content: '';
+    display: block;
+    width: 78px;
+    height: 5px;
+    margin: 0.5rem auto 0;
+    border-radius: 999px;
+    background: var(--card-color);
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--card-color) 26%, transparent);
+}
+
+.varietiesGrid {
+    display: grid;
+    gap: 0.9rem;
+    position: relative;
+    z-index: 2;
+}
+
 .container_element{
 height: 40px;
 }
@@ -115,4 +199,10 @@ height: 40px;
     margin-left: 20px;
     margin-top: 20px;
     height: 50px;
+}
+
+@media (max-width: 640px) {
+    .abilitiesGrid {
+        grid-template-columns: 1fr;
+    }
 }

@@ -22,6 +22,7 @@ import {
 import SvgMal from './SvgMal.tsx';
 import SvgFemale from './SvgFemale.tsx';
 import Evolutions from './Evolutions.tsx';
+import DecorativeCard from '../UI/DecorativeCard.tsx';
 
 
 
@@ -106,20 +107,42 @@ useEffect(()=> {
       />
     )}
     {pokemon && pokemon?.abilities?.length > 0 && (
-         <section className={styles.element}>
-        <div className={styles.element_container}>
-         <h3>Talents</h3>
-          {pokemon?.abilities.map((ability, i) => {
-          return <Ability key={i} url={ability.ability.url} /> })}
-        </div>
-        </section>
+      <DecorativeCard
+        color={color}
+        contentClassName={styles.abilitiesContainer}
+        pattern="pokeball"
+      >
+          <div className={styles.abilitiesHeader}>
+            <span className={styles.abilitiesEyebrow}>Capacités spéciales</span>
+            <h3>Talents</h3>
+          </div>
+          <div className={styles.abilitiesGrid}>
+            {pokemon?.abilities.map((ability, i) => {
+              return <Ability key={i} url={ability.ability.url} /> })}
+          </div>
+      </DecorativeCard>
     )}
     {pokemon && (
-      <div>
-        {pokemon?.varieties.filter(v => !v.is_default).map(variety => <Varieties key={variety.pokemon.name} variety={variety}></Varieties>)
-        }
+      <>
+        {pokemon.varieties.filter(v => !v.is_default).length > 0 && (
+          <DecorativeCard
+            color={color}
+            contentClassName={styles.varietiesContainer}
+            pattern="cornerCircle"
+          >
+            <div className={styles.varietiesHeader}>
+              <span className={styles.varietiesEyebrow}>Formes alternatives</span>
+              <h3>Variétés</h3>
+            </div>
+            <div className={styles.varietiesGrid}>
+              {pokemon.varieties.filter(v => !v.is_default).map(variety => (
+                <Varieties key={variety.pokemon.name} variety={variety}></Varieties>
+              ))}
+            </div>
+          </DecorativeCard>
+        )}
         <Evolutions url={pokemon.evolution_chain.url} pokemon={pokemon}/>
-      </div>
+      </>
     )}
       </div>
   )
