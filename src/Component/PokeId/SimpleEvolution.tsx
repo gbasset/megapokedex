@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Image from '../UI/Image';
 import styles from './PodeId.module.css';
-import { Link } from "react-router-dom";
-import { Navigate } from 'react-router-dom';
 
 type P = {
     datas?: any,

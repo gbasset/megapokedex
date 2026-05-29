@@ -1,8 +1,44 @@
-import React, { useEffect } from 'react';
+import { useCallback, useEffect, useMemo, type CSSProperties } from 'react';
 import styles from './Header.module.css';
 import { NavLink, useLocation } from "react-router-dom";
-import { UseMainContext } from '../../context/MainContext.jsx';
+import { UseMainContext, type MainContextValue } from '../../context/MainContext.jsx';
 import { colorByPokemonTypes } from '../../utils/apiAndDatabase';
+import { ButtonLink } from '../UI/Button';
+
+function buildComparisonUrl(firstPokemonId: number | null, comparisonPokemonIds: number[]): string {
+  if (firstPokemonId) {
+    const params = new URLSearchParams({ first: String(firstPokemonId) });
+    const secondPokemonId = comparisonPokemonIds.find((id) => id !== firstPokemonId);
+
+    if (secondPokemonId) {
+      params.set('second', String(secondPokemonId));
+    }
+
+    return `/comparison?${params.toString()}`;
+  }
+
+  if (comparisonPokemonIds.length >= 2) {
+    return `/comparison?first=${comparisonPokemonIds[0]}&second=${comparisonPokemonIds[1]}`;
+  }
+
+  if (comparisonPokemonIds.length === 1) {
+    return `/comparison?first=${comparisonPokemonIds[0]}`;
+  }
+
+  return '/comparison';
+}
+
+function getPrimaryTypeName(pokemon: MainContextValue['mainInformationPokemonSelected']): string | undefined {
+  const firstType = pokemon?.types[0];
+
+  if (!firstType || typeof firstType !== 'object' || !('type' in firstType)) {
+    return undefined;
+  }
+
+  const typeSlot = firstType as { type?: { name?: unknown } };
+
+  return typeof typeSlot.type?.name === 'string' ? typeSlot.type.name : undefined;
+}
 
 export default function Header() {
   const location = useLocation();
@@ -13,12 +49,15 @@ export default function Header() {
     mainInformationPokemonSelected,
     color,
     setcolor,
-    setmainInformationPokemonSelected
-  }: any = UseMainContext();
+    setmainInformationPokemonSelected,
+    comparisonPokemonIds,
+    setComparisonFirstPokemon,
+  } = UseMainContext() as MainContextValue;
 
   useEffect(() => {
     if (mainInformationPokemonSelected) {
-      const colorByPoke = colorByPokemonTypes.find(x => x.type === mainInformationPokemonSelected.types[0].type.name);
+      const primaryTypeName = getPrimaryTypeName(mainInformationPokemonSelected);
+      const colorByPoke = colorByPokemonTypes.find((x) => x.type === primaryTypeName);
       if (colorByPoke) {
         setcolor(colorByPoke.color);
       } else {
@@ -31,10 +70,27 @@ export default function Header() {
 
   const isHome = location.pathname === '/';
 
+  const currentPokeId = useMemo(() => {
+    const pokeRouteMatch = location.pathname.match(/^\/poke\/(\d+)$/);
+
+    return pokeRouteMatch ? Number(pokeRouteMatch[1]) : null;
+  }, [location.pathname]);
+
+  const comparisonUrl = useMemo(
+    () => buildComparisonUrl(currentPokeId, comparisonPokemonIds),
+    [comparisonPokemonIds, currentPokeId],
+  );
+
+  const handleCompareClick = useCallback(() => {
+    if (currentPokeId) {
+      setComparisonFirstPokemon(currentPokeId);
+    }
+  }, [currentPokeId, setComparisonFirstPokemon]);
+
   return (
     <header 
       className={styles.header_contour} 
-      style={{ '--poke-type-color': color } as React.CSSProperties}
+      style={{ '--poke-type-color': color } as CSSProperties}
     >
       <div className={styles.header_inner}>
         {/* Left Section: Back Button OR Search Bar */}
@@ -123,7 +179,17 @@ export default function Header() {
 
         {/* Right Section: Balanced spacing element */}
         <div className={styles.header_right}>
-          {/* Symmetrical balance spacer */}
+          {!isHome && (
+            <ButtonLink
+              to={comparisonUrl}
+              variant="primary"
+              size="medium"
+              onClick={handleCompareClick}
+              aria-label="Ouvrir l'outil de comparaison"
+            >
+              Comparer
+            </ButtonLink>
+          )}
         </div>
       </div>
     </header>

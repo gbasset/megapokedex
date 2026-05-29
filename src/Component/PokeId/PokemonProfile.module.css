@@ -90,6 +90,42 @@
   filter: drop-shadow(0 24px 28px rgba(44, 62, 80, 0.22));
 }
 
+.pokemonImageAnimated {
+  image-rendering: auto;
+}
+
+.selectedSpriteLabel {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: 0.65rem;
+  color: rgba(44, 62, 80, 0.82);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.selectedSpriteMeta {
+  color: rgba(44, 62, 80, 0.58);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.variantControls {
+  display: grid;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.variantControlsTitle {
+  color: rgba(44, 62, 80, 0.58);
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .buttonsContainer {
   display: flex;
   gap: 0.75rem;
@@ -100,37 +136,16 @@
   z-index: 1;
 }
 
-.actionButton {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-content: center;
-  min-height: 46px;
-  padding: 0.75rem 1.35rem;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  font-family: 'Poke Solid', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: white;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+.shinyButtonIcon {
+  display: block;
+  height: 22px;
+  width: auto;
 }
 
-.actionButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-.actionButton svg {
-  width: 24px;
-  height: 24px;
-}
-
-.buttonIcon {
-  height: 25px;
-  filter: brightness(0) invert(1);
+.buttonsContainer svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
 }
 
 .sectionHeader {
@@ -228,9 +243,8 @@
     width: 100%;
   }
 
-  .actionButton {
+  .buttonsContainer > * {
     width: 100%;
-    justify-content: center;
   }
 
   .characteristicItem {

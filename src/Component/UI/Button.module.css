@@ -1,0 +1,195 @@
+.button {
+  --button-bg: #ffffff;
+  --button-color: #263647;
+  --button-border: rgba(38, 54, 71, 0.1);
+  --button-shadow: 0 8px 18px rgba(38, 54, 71, 0.1);
+  --button-hover-bg: #ffffff;
+  --button-hover-color: var(--button-color);
+  --button-hover-border: var(--button-border);
+  --button-hover-shadow: 0 12px 24px rgba(38, 54, 71, 0.14);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: max-content;
+  border: 1px solid var(--button-border);
+  color: var(--button-color);
+  background: var(--button-bg);
+  border-radius: 18px;
+  box-shadow: var(--button-shadow);
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  text-decoration: none;
+  text-shadow: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  user-select: none;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 58%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.button:hover {
+  color: var(--button-hover-color);
+  background: var(--button-hover-bg);
+  border-color: var(--button-hover-border);
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: var(--button-hover-shadow);
+}
+
+.button:hover::before {
+  opacity: 1;
+}
+
+.button:visited {
+  color: var(--button-color);
+}
+
+.button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--button-color) 32%, transparent);
+  outline-offset: 3px;
+}
+
+.primary {
+  --button-bg: #d63031;
+  --button-color: #ffffff;
+  --button-border: #c52829;
+  --button-shadow: 0 8px 18px rgba(214, 48, 49, 0.2);
+  --button-hover-bg: #c70018;
+  --button-hover-color: #ffffff;
+  --button-hover-border: #b90018;
+  --button-hover-shadow: 0 12px 24px rgba(214, 48, 49, 0.26);
+}
+
+.secondary {
+  --button-bg: rgba(255, 255, 255, 0.9);
+  --button-color: #263647;
+  --button-border: rgba(38, 54, 71, 0.08);
+  --button-hover-bg: #ffffff;
+  --button-hover-color: #d63031;
+  --button-hover-border: rgba(214, 48, 49, 0.22);
+  --button-hover-shadow: 0 14px 30px rgba(38, 54, 71, 0.14);
+}
+
+.success {
+  --button-bg: var(--darkgreen);
+  --button-color: #ffffff;
+  --button-border: #059879;
+  --button-shadow: 0 8px 18px rgba(0, 184, 148, 0.2);
+  --button-hover-bg: #059879;
+  --button-hover-color: #ffffff;
+  --button-hover-border: #047c64;
+  --button-hover-shadow: 0 12px 24px rgba(0, 184, 148, 0.26);
+}
+
+.ghost {
+  --button-bg: rgba(255, 255, 255, 0.86);
+  --button-color: #263647;
+  --button-border: rgba(38, 54, 71, 0.1);
+  --button-shadow: 0 8px 18px rgba(38, 54, 71, 0.08);
+  --button-hover-bg: #ffffff;
+  --button-hover-color: #d63031;
+  --button-hover-border: rgba(214, 48, 49, 0.22);
+  --button-hover-shadow: 0 12px 24px rgba(38, 54, 71, 0.12);
+}
+
+.shiny {
+  --button-bg: linear-gradient(135deg, #ffe566 0%, #f5c518 52%, #e6a800 100%);
+  --button-color: #5c4200;
+  --button-border: #d4a017;
+  --button-shadow: 0 8px 20px rgba(230, 168, 0, 0.35);
+  --button-hover-bg: linear-gradient(135deg, #fff08a 0%, #ffd633 52%, #f0b429 100%);
+  --button-hover-color: #4a3500;
+  --button-hover-border: #e6b422;
+  --button-hover-shadow: 0 12px 26px rgba(230, 168, 0, 0.42);
+}
+
+.gender {
+  --button-bg: #4a90e8;
+  --button-color: #ffffff;
+  --button-border: #3a7fd4;
+  --button-shadow: 0 8px 18px rgba(74, 144, 232, 0.28);
+  --button-hover-bg: #3a7fd4;
+  --button-hover-color: #ffffff;
+  --button-hover-border: #2f6fbe;
+  --button-hover-shadow: 0 12px 24px rgba(74, 144, 232, 0.34);
+}
+
+.genderFemale {
+  --button-bg: #e85d9a;
+  --button-color: #ffffff;
+  --button-border: #d44a88;
+  --button-shadow: 0 8px 18px rgba(232, 93, 154, 0.28);
+  --button-hover-bg: #d44a88;
+  --button-hover-color: #ffffff;
+  --button-hover-border: #c23d7a;
+  --button-hover-shadow: 0 12px 24px rgba(232, 93, 154, 0.34);
+}
+
+.small {
+  min-height: 34px;
+  padding: 0 0.9rem;
+  font-size: 0.78rem;
+}
+
+.medium {
+  min-height: 42px;
+  padding: 0 1.2rem;
+  font-size: 0.9rem;
+}
+
+.large {
+  min-height: 48px;
+  padding: 0 1.55rem;
+  font-size: 1rem;
+}
+
+.circle {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border-radius: 999px;
+  font-size: 0.82rem;
+}
+
+.disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.15);
+  opacity: 0.46;
+  pointer-events: none;
+  transform: none;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+
+  .button:hover {
+    transform: none;
+  }
+}

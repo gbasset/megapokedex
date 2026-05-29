@@ -113,7 +113,7 @@ function EvolutionCard({ currentPokemonId, node }: EvolutionCardProps) {
     return (
         <Link
             aria-current={isActive ? 'page' : undefined}
-            aria-label={`Voir la fiche de ${node.friendlyName}`}
+            aria-label={`Voir le pokémon`}
             className={className}
             to={`/poke/${node.id}`}
         >

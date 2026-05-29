@@ -30,7 +30,7 @@ export default function Box({pokemon, children} : Props) {
   const cardStyle = {
     '--pokemon-color': pokemonColor,
   } as CSSProperties;
-  const handlePointerEnter = useCallback((event: PointerEvent<HTMLAnchorElement>) => {
+  const handlePointerEnter = useCallback((event: PointerEvent<HTMLElement>) => {
     const card = event.currentTarget;
     const rect = card.getBoundingClientRect();
     const pointerX = event.clientX - rect.left;
@@ -58,27 +58,31 @@ export default function Box({pokemon, children} : Props) {
   }, []);
 
   return (
-    <Link
-      to={"poke/" + pokemon.id}
+    <article
       className={styles.card}
       style={cardStyle}
-      aria-label={`Voir le Pokémon ${name}`}
       onPointerEnter={handlePointerEnter}
     >
-      <div className={styles.content}>
-        <span className={styles.number}>#{pokemon.id.toString().padStart(3, '0')}</span>
-        <h2 className={styles.name}>
-          {name}
-        </h2>
-        <div className={styles.artStage}>
-          <img className={styles.pokemonImage} src={pokemon.img ?? ''} alt={name} loading="lazy" />
+      <Link
+        to={"/poke/" + pokemon.id}
+        className={styles.cardLink}
+        aria-label={`Voir le Pokémon ${name}`}
+      >
+        <div className={styles.content}>
+          <span className={styles.number}>#{pokemon.id.toString().padStart(3, '0')}</span>
+          <h2 className={styles.name}>
+            {name}
+          </h2>
+          <div className={styles.artStage}>
+            <img className={styles.pokemonImage} src={pokemon.img ?? ''} alt={name} loading="lazy" />
+          </div>
+          <div className={styles.footer}>
+            <span>Voir le Pokémon</span>
+            <span className={styles.arrow} aria-hidden="true">→</span>
+          </div>
         </div>
-        <div className={styles.footer}>
-          <span>Voir le Pokémon</span>
-          <span className={styles.arrow} aria-hidden="true">→</span>
-        </div>
-        {children}
-      </div>
-    </Link>
+      </Link>
+      {children && <div className={styles.actions}>{children}</div>}
+    </article>
   )
 }
