@@ -5,6 +5,9 @@ import PokeId from './Component/PokeId/PokeId.tsx'
 import HomeContainer from './Component/Home/HomeContainer.tsx'
 import {ContextProvider} from './context/MainContext.jsx'
 import ComparisonContainer from './Component/Comparison/ComparisonContainer.tsx'
+import MediaContainer from './Component/Media/MediaContainer.tsx';
+import MediaDetail from './Component/Media/MediaDetail.tsx';
+import { MediaProvider } from './Component/Media/context/MediaContext.tsx';
 function App() {
 
   return (
@@ -17,6 +20,15 @@ function App() {
             <Route path="/" element={<HomeContainer/>}/> 
             <Route path="/poke/:id" element={<PokeId/>}/> 
             <Route path="/comparison" element={<ComparisonContainer/>}/> 
+            <Route
+              path="/poke-media"
+              element={(
+                <MediaProvider>
+                  <MediaContainer />
+                </MediaProvider>
+              )}
+            />
+            <Route path="/poke-media/:category/:id" element={<MediaDetail />} />
         </Routes>
     </ContextProvider>
       

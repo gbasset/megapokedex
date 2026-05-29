@@ -69,6 +69,7 @@ export default function Header() {
   }, [mainInformationPokemonSelected, setcolor]);
 
   const isHome = location.pathname === '/';
+  const isMediaRoute = location.pathname === '/poke-media';
 
   const currentPokeId = useMemo(() => {
     const pokeRouteMatch = location.pathname.match(/^\/poke\/(\d+)$/);
@@ -179,17 +180,36 @@ export default function Header() {
 
         {/* Right Section: Balanced spacing element */}
         <div className={styles.header_right}>
-          {!isHome && (
+          <div className={styles.header_actions}>
             <ButtonLink
-              to={comparisonUrl}
-              variant="primary"
-              size="medium"
-              onClick={handleCompareClick}
-              aria-label="Ouvrir l'outil de comparaison"
+              to="/"
+              variant={isHome ? 'primary' : 'secondary'}
+              size="small"
+              onClick={() => setmainInformationPokemonSelected()}
+              aria-label="Aller au Pokedex"
             >
-              Comparer
+              Pokedex
             </ButtonLink>
-          )}
+            <ButtonLink
+              to="/poke-media"
+              variant={isMediaRoute ? 'primary' : 'secondary'}
+              size="small"
+              aria-label="Aller au Poke Media"
+            >
+              Poke Media
+            </ButtonLink>
+            {!isHome && !isMediaRoute && (
+              <ButtonLink
+                to={comparisonUrl}
+                variant="primary"
+                size="medium"
+                onClick={handleCompareClick}
+                aria-label="Ouvrir l'outil de comparaison"
+              >
+                Comparer
+              </ButtonLink>
+            )}
+          </div>
         </div>
       </div>
     </header>
