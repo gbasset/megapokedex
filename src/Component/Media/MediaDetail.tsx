@@ -28,6 +28,10 @@ function formatScore(detail: MediaDetailType): string {
   return 'Non renseigne';
 }
 
+function formatCompactValue(value: number): string {
+  return Intl.NumberFormat('fr-FR', { notation: 'compact', maximumFractionDigits: 1 }).format(value);
+}
+
 export default function MediaDetail() {
   const { category, id } = useParams();
   const { pokemonsDetails } = UseMainContext();
@@ -72,6 +76,32 @@ export default function MediaDetail() {
   }, [mediaDetail, pokemonsDetails]);
   const primaryVideo = useMemo(() => {
     return mediaDetail?.videos.find((video) => video.site === 'YouTube' && video.url) ?? mediaDetail?.videos[0] ?? null;
+  }, [mediaDetail]);
+  const heroStats = useMemo(() => {
+    if (!mediaDetail) {
+      return [];
+    }
+
+    const stats: Array<{ label: string; value: string }> = [
+      { label: 'Note TMDB', value: formatScore(mediaDetail) },
+      { label: 'Popularite', value: formatCompactValue(mediaDetail.popularity) },
+    ];
+
+    if (typeof mediaDetail.voteCount === 'number' && mediaDetail.voteCount > 0) {
+      stats.push({
+        label: 'Votes',
+        value: Intl.NumberFormat('fr-FR').format(mediaDetail.voteCount),
+      });
+    }
+
+    if (typeof mediaDetail.runtimeMinutes === 'number' && mediaDetail.runtimeMinutes > 0) {
+      stats.push({
+        label: 'Duree',
+        value: `${mediaDetail.runtimeMinutes} min`,
+      });
+    }
+
+    return stats;
   }, [mediaDetail]);
 
   useEffect(() => {
@@ -141,6 +171,17 @@ export default function MediaDetail() {
               {mediaDetail.overview || 'Aucun synopsis disponible pour ce contenu.'}
             </p>
 
+            {heroStats.length > 0 && (
+              <div className={styles.heroStats}>
+                {heroStats.map((stat) => (
+                  <div key={stat.label} className={styles.heroStatCard}>
+                    <span>{stat.label}</span>
+                    <strong>{stat.value}</strong>
+                  </div>
+                ))}
+              </div>
+            )}
+
             <div className={styles.heroActions}>
               <a
                 href={mediaDetail.tmdbUrl}
@@ -150,6 +191,16 @@ export default function MediaDetail() {
               >
                 Ouvrir sur TMDB
               </a>
+              {mediaDetail.homepage && (
+                <a
+                  href={mediaDetail.homepage}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.secondaryLink}
+                >
+                  Site officiel
+                </a>
+              )}
             </div>
           </div>
         </div>

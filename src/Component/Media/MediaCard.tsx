@@ -28,6 +28,18 @@ function getScoreLabel(item: MediaCatalogItem): string {
   return 'Sans note';
 }
 
+function getVotesLabel(item: MediaCatalogItem): string {
+  if (typeof item.voteCount === 'number' && item.voteCount > 0) {
+    return `${Intl.NumberFormat('fr-FR').format(item.voteCount)} votes`;
+  }
+
+  return 'Pas de vote';
+}
+
+function getPopularityLabel(item: MediaCatalogItem): string {
+  return `Pop. ${Math.round(item.popularity)}`;
+}
+
 export default function MediaCard({ item }: MediaCardProps) {
   const truncatedOverview = truncateText(
     item.overview || 'Aucun synopsis disponible pour ce contenu.',
@@ -69,7 +81,21 @@ export default function MediaCard({ item }: MediaCardProps) {
       onPointerEnter={handlePointerEnter}
     >
       <div className={styles.content}>
-        <span className={styles.number}>{CATEGORY_LABELS[item.category]}</span>
+        <div className={styles.topRow}>
+          <span className={styles.number}>{CATEGORY_LABELS[item.category]}</span>
+          <div className={styles.topActions}>
+            <span className={styles.scorePill}>{getScoreLabel(item)}</span>
+            <a
+              href={item.tmdbUrl}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.actionLink}
+              aria-label={`Ouvrir ${item.title} sur TMDB`}
+            >
+              TMDB
+            </a>
+          </div>
+        </div>
         <h2 className={styles.title}>{item.title}</h2>
         {item.originalTitle !== item.title && (
           <p className={styles.originalTitle}>{item.originalTitle}</p>
@@ -97,9 +123,9 @@ export default function MediaCard({ item }: MediaCardProps) {
         </Link>
 
         <div className={styles.meta}>
-          {item.releaseYear && <span>{item.releaseYear}</span>}
-          <span>{getScoreLabel(item)}</span>
-          <span>Pop. {Math.round(item.popularity)}</span>
+          {item.releaseYear && <span className={styles.metaItem}>{item.releaseYear}</span>}
+          <span className={styles.metaItem}>{getPopularityLabel(item)}</span>
+          <span className={styles.metaItem}>{getVotesLabel(item)}</span>
         </div>
 
         <div className={styles.overviewBlock}>
@@ -117,17 +143,6 @@ export default function MediaCard({ item }: MediaCardProps) {
             <span className={styles.arrow} aria-hidden="true">→</span>
           </Link>
         </div>
-      </div>
-
-      <div className={styles.actions}>
-        <a
-          href={item.tmdbUrl}
-          target="_blank"
-          rel="noreferrer"
-          className={styles.actionLink}
-        >
-          TMDB
-        </a>
       </div>
     </article>
   );
