@@ -3,6 +3,51 @@
   margin: 0 auto;
   padding: 1rem 0 4rem;
   color: var(--black);
+  position: relative;
+  isolation: isolate;
+}
+
+.comparisonPage::before,
+.comparisonPage::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.comparisonPage::before {
+  top: 68px;
+  right: -96px;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.68) 0 28%, transparent 68%),
+    conic-gradient(
+      from 22deg,
+      color-mix(in srgb, var(--darkbluegreen) 34%, transparent),
+      color-mix(in srgb, var(--lightblue) 26%, transparent),
+      color-mix(in srgb, var(--darkyellow) 22%, transparent),
+      color-mix(in srgb, var(--darkbluegreen) 34%, transparent)
+    );
+  opacity: 0.45;
+  filter: blur(2px);
+}
+
+.comparisonPage::after {
+  left: -116px;
+  bottom: 48px;
+  width: 280px;
+  height: 280px;
+  border-radius: 38% 62% 48% 52% / 56% 44% 56% 44%;
+  background:
+    radial-gradient(circle at 40% 36%, rgba(255, 255, 255, 0.72), transparent 62%),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--lightgreen) 44%, transparent),
+      color-mix(in srgb, var(--lightpurple) 36%, transparent)
+    );
+  opacity: 0.46;
 }
 
 .dashboard {
@@ -80,7 +125,7 @@
 }
 
 .sectionTitleBlock span {
-  color: var(--comparison-color, var(--blue));
+  color: color-mix(in srgb, var(--comparison-color, var(--blue)) 58%, #3f5061);
   font-family: 'Roboto', sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
@@ -91,12 +136,14 @@
 .sectionTitleBlock h1,
 .sectionTitleBlock h2 {
   margin: 0.3rem 0 0.35rem;
-  color: var(--comparison-color, var(--black));
+  color: color-mix(in srgb, var(--comparison-color, var(--blue)) 46%, #2c3e50);
   font-family: 'Poke Solid', sans-serif;
   font-size: clamp(2rem, 6vw, 3rem);
   letter-spacing: 1px;
   line-height: 1.05;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .sectionTitleBlock p {
@@ -155,7 +202,7 @@
 
 .pokemonHero {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(180px, 0.85fr);
+  grid-template-columns: minmax(160px, 0.95fr) minmax(0, 1.05fr);
   align-items: start;
   gap: 18px;
   height: 100%;
@@ -178,6 +225,7 @@
   display: grid;
   gap: 4px;
   align-content: start;
+  min-width: 0;
 }
 
 .spritePicker {
@@ -310,10 +358,15 @@
 .pokemonHero h2 {
   margin: 4px 0 12px;
   color: var(--comparison-color, var(--black));
-  font-family: 'Poke Solid', sans-serif;
-  font-size: clamp(2rem, 6vw, 3rem);
-  letter-spacing: 1px;
-  line-height: 1.05;
+  font-family: 'Poke Hollow', Inter, system-ui, sans-serif;
+  font-size: clamp(1.8rem, 4.8vw, 2.7rem);
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+  text-wrap: balance;
+  max-width: 100%;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
 }
 

@@ -1,4 +1,6 @@
 .pokedexContainer {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 34px;
@@ -6,6 +8,48 @@
   margin: 0 auto;
   padding: 3rem 0 4rem;
   justify-items: center;
+}
+
+.pokedexContainer::before,
+.pokedexContainer::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.pokedexContainer::before {
+  top: 0;
+  left: -86px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.74) 0 34%, transparent 64%),
+    conic-gradient(
+      from 42deg,
+      color-mix(in srgb, var(--lightblue) 30%, transparent),
+      color-mix(in srgb, var(--lightpurple) 30%, transparent),
+      color-mix(in srgb, var(--lightgreen) 26%, transparent),
+      color-mix(in srgb, var(--lightblue) 30%, transparent)
+    );
+  opacity: 0.42;
+}
+
+.pokedexContainer::after {
+  right: -118px;
+  bottom: 30px;
+  width: 320px;
+  height: 320px;
+  border-radius: 44% 56% 52% 48% / 58% 42% 58% 42%;
+  background:
+    radial-gradient(circle at 36% 40%, rgba(255, 255, 255, 0.68), transparent 62%),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--lightyellow) 36%, transparent),
+      color-mix(in srgb, var(--lightbluegreen) 34%, transparent)
+    );
+  opacity: 0.44;
 }
 
 .compareTray {
@@ -26,6 +70,37 @@
   box-shadow: 0 14px 34px rgba(25, 25, 25, 0.1);
   backdrop-filter: blur(14px);
   box-sizing: border-box;
+  overflow: hidden;
+}
+
+.compareTray::before,
+.compareTray::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.compareTray::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--lightblue) 70%, transparent),
+    color-mix(in srgb, var(--lightgreen) 66%, transparent),
+    color-mix(in srgb, var(--lightpurple) 66%, transparent)
+  );
+}
+
+.compareTray::after {
+  right: -42px;
+  bottom: -42px;
+  width: 126px;
+  height: 126px;
+  border-radius: 50%;
+  border: 18px solid color-mix(in srgb, var(--lightblue) 28%, transparent);
+  opacity: 0.54;
 }
 
 .compareTray strong,
@@ -59,5 +134,11 @@
     width: min(100% - 24px, 320px);
     gap: 24px;
     padding-top: 2rem;
+  }
+
+  .pokedexContainer::before,
+  .pokedexContainer::after {
+    opacity: 0.28;
+    transform: scale(0.86);
   }
 }
