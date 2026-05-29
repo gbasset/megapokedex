@@ -3,7 +3,7 @@
   display: block;
   --entry-x: 100%;
   --entry-y: 0px;
-  --hover-red: #ff1f2d;
+  --hover-red: var(--darkred);
   width: 100%;
   max-width: 238px;
   min-height: 326px;
@@ -32,6 +32,24 @@
   min-height: inherit;
   color: inherit;
   text-decoration: none;
+}
+
+.cardLink:visited,
+.cardLink:hover,
+.cardLink:active,
+.cardLink:focus-visible {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card:hover .cardLink,
+.card:hover .cardLink:visited,
+.card:hover .cardLink:active {
+  color: inherit;
+}
+
+.card:hover .cardLink:hover {
+  color: inherit;
 }
 
 .actions {
@@ -146,7 +164,20 @@
 }
 
 .card:hover .name {
+  display: inline-block;
+  max-width: 100%;
+  padding: 4px 10px;
+  color: var(--darkred);
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(214, 48, 49, 0.18);
   transform: translateZ(34px);
+}
+
+.card:hover .cardLink:hover .name,
+.card:hover .cardLink:visited .name,
+.card:hover .cardLink:active .name {
+  color: var(--darkred);
 }
 
 .artStage {

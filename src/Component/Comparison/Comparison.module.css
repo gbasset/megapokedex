@@ -350,8 +350,15 @@
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
+.pokemonHeroCta:visited,
+.pokemonHeroCta:hover,
+.pokemonHeroCta:active,
+.pokemonHeroCta:focus-visible {
+  color: color-mix(in srgb, var(--comparison-color, var(--darkred)) 72%, #2c3e50);
+  text-decoration: none;
+}
+
 .pokemonHeroCta:hover {
-  color: var(--comparison-color, var(--blue));
   transform: translateX(4px);
 }
 
