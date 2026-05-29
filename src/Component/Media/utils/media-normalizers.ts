@@ -3,6 +3,7 @@ import type {
   TmdbCollectionSearchResultRaw,
   TmdbMovieDetailRaw,
   TmdbMovieSearchResultRaw,
+  TmdbSpokenLanguageRaw,
   TmdbTvDetailRaw,
   TmdbTvSearchResultRaw,
   TmdbVideoRaw,
@@ -58,6 +59,16 @@ function buildMediaItemBase(
     tmdbUrl: `${TMDB_SITE_BASE_URL}/${category}/${tmdbId}`,
     searchRank,
   };
+}
+
+function normalizeSpokenLanguages(languages: TmdbSpokenLanguageRaw[] | undefined): string[] {
+  if (!languages) {
+    return [];
+  }
+
+  return languages
+    .map((language) => language.english_name || language.name)
+    .filter((label): label is string => typeof label === 'string' && label.length > 0);
 }
 
 function normalizeVideos(videos: TmdbVideoRaw[] | undefined): MediaDetailVideo[] {
@@ -174,7 +185,7 @@ export function normalizeMovieDetailFromApi(movie: TmdbMovieDetailRaw): MediaDet
     tagline: movie.tagline,
     status: movie.status,
     genres: movie.genres.map((genre) => genre.name),
-    spokenLanguages: movie.spoken_languages.map((language) => language.english_name || language.name),
+    spokenLanguages: normalizeSpokenLanguages(movie.spoken_languages),
     productionCompanies: movie.production_companies.map((company) => company.name),
     runtimeMinutes: movie.runtime,
     numberOfSeasons: null,
@@ -204,7 +215,7 @@ export function normalizeTvDetailFromApi(tvShow: TmdbTvDetailRaw): MediaDetail {
     tagline: tvShow.tagline,
     status: tvShow.status,
     genres: tvShow.genres.map((genre) => genre.name),
-    spokenLanguages: tvShow.spoken_languages,
+    spokenLanguages: normalizeSpokenLanguages(tvShow.spoken_languages),
     productionCompanies: tvShow.production_companies.map((company) => company.name),
     runtimeMinutes: tvShow.episode_run_time[0] ?? null,
     numberOfSeasons: tvShow.number_of_seasons,

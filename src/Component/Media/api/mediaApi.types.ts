@@ -123,7 +123,7 @@ export interface TmdbTvDetailRaw {
   tagline: string | null;
   status: string | null;
   genres: TmdbGenreRaw[];
-  spoken_languages: string[];
+  spoken_languages: TmdbSpokenLanguageRaw[];
   production_companies: TmdbProductionCompanyRaw[];
   episode_run_time: number[];
   number_of_episodes: number | null;
