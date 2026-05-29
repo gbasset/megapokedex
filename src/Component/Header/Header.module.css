@@ -43,14 +43,50 @@
 
 .header_inner {
   max-width: 1200px;
-  height: 80px;
+  min-height: 80px;
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
   position: relative;
   z-index: 1;
+}
+
+.header_innerStacked {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.header_topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+}
+
+.header_bottomRow {
+  display: none;
+  width: 100%;
+  min-width: 0;
+  padding-left: 52px;
+}
+
+.header_navGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.header_breadcrumbsDesktop {
+  display: none;
+  min-width: 0;
+  flex: 1;
 }
 
 .header_inner::before,
@@ -100,6 +136,13 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.header_actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 /* Brand Title & Logo styling */
@@ -269,10 +312,38 @@
   }
 }
 
+@media (min-width: 769px) {
+  .header_breadcrumbsDesktop {
+    display: block;
+  }
+
+  .header_bottomRow {
+    display: none !important;
+  }
+}
+
 @media (max-width: 768px) {
   .header_inner {
     padding: 0 1rem;
-    height: 70px;
+    min-height: 70px;
+  }
+
+  .header_innerStacked {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .header_bottomRow {
+    display: block;
+    padding-left: 0;
+  }
+
+  .header_breadcrumbsDesktop {
+    display: none;
+  }
+
+  .header_topRow {
+    min-height: 48px;
   }
 
   .header_title {
@@ -303,5 +374,9 @@
   .back_arrow_svg {
     width: 18px;
     height: 18px;
+  }
+
+  .header_actions {
+    gap: 8px;
   }
 }

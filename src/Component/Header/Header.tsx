@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useMemo, type CSSProperties } from 'react';
 import styles from './Header.module.css';
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink } from 'react-router-dom';
 import { UseMainContext, type MainContextValue } from '../../context/MainContext.jsx';
 import { colorByPokemonTypes } from '../../utils/apiAndDatabase';
 import { ButtonLink } from '../UI/Button';
+import AppNav from '../Navigation/AppNav';
+import Breadcrumbs from '../Navigation/Breadcrumbs';
+import { useAppNavigation } from '../Navigation/logic/useAppNavigation';
 
 function buildComparisonUrl(firstPokemonId: number | null, comparisonPokemonIds: number[]): string {
   if (firstPokemonId) {
@@ -41,7 +44,6 @@ function getPrimaryTypeName(pokemon: MainContextValue['mainInformationPokemonSel
 }
 
 export default function Header() {
-  const location = useLocation();
   const {
     searchTerm,
     setSearchTerm,
@@ -53,6 +55,18 @@ export default function Header() {
     comparisonPokemonIds,
     setComparisonFirstPokemon,
   } = UseMainContext() as MainContextValue;
+
+  const navigation = useAppNavigation();
+  const {
+    isHome,
+    section,
+    depth,
+    backTo,
+    backLabel,
+    breadcrumbs,
+    showBreadcrumbs,
+    currentPokeId,
+  } = navigation;
 
   useEffect(() => {
     if (mainInformationPokemonSelected) {
@@ -68,14 +82,6 @@ export default function Header() {
     }
   }, [mainInformationPokemonSelected, setcolor]);
 
-  const isHome = location.pathname === '/';
-
-  const currentPokeId = useMemo(() => {
-    const pokeRouteMatch = location.pathname.match(/^\/poke\/(\d+)$/);
-
-    return pokeRouteMatch ? Number(pokeRouteMatch[1]) : null;
-  }, [location.pathname]);
-
   const comparisonUrl = useMemo(
     () => buildComparisonUrl(currentPokeId, comparisonPokemonIds),
     [comparisonPokemonIds, currentPokeId],
@@ -87,112 +93,136 @@ export default function Header() {
     }
   }, [currentPokeId, setComparisonFirstPokemon]);
 
+  const handleBackClick = useCallback(() => {
+    setmainInformationPokemonSelected();
+  }, [setmainInformationPokemonSelected]);
+
+  const showCompareAction = currentPokeId !== null;
+
   return (
-    <header 
-      className={styles.header_contour} 
+    <header
+      className={styles.header_contour}
       style={{ '--poke-type-color': color } as CSSProperties}
     >
-      <div className={styles.header_inner}>
-        {/* Left Section: Back Button OR Search Bar */}
-        <div className={styles.header_left}>
-          {isHome ? (
-            <div className={styles.search_container}>
-              <div className={styles.search_wrapper}>
-                <svg 
-                  className={styles.search_icon} 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2.5" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                >
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input
-                  type="text"
-                  placeholder="Rechercher un Pokémon..."
-                  value={searchTerm}
-                  onChange={handleChange}
-                  className={styles.search_input}
-                />
-                {searchTerm && (
-                  <button 
-                    type="button"
-                    className={styles.clear_button} 
-                    onClick={() => setSearchTerm('')}
-                    aria-label="Effacer la recherche"
+      <div className={`${styles.header_inner} ${!isHome ? styles.header_innerStacked : ''}`}>
+        <div className={styles.header_topRow}>
+          <div className={styles.header_left}>
+            {isHome ? (
+              <div className={styles.search_container}>
+                <div className={styles.search_wrapper}>
+                  <svg
+                    className={styles.search_icon}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    <svg 
-                      className={styles.clear_icon}
-                      xmlns="http://www.w3.org/2000/svg" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth="2.5" 
-                      strokeLinecap="round" 
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Rechercher un Pokémon..."
+                    value={searchTerm}
+                    onChange={handleChange}
+                    className={styles.search_input}
+                  />
+                  {searchTerm && (
+                    <button
+                      type="button"
+                      className={styles.clear_button}
+                      onClick={() => setSearchTerm('')}
+                      aria-label="Effacer la recherche"
+                    >
+                      <svg
+                        className={styles.clear_icon}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className={styles.header_navGroup}>
+                {backTo && (
+                  <Link
+                    className={styles.back_button}
+                    onClick={handleBackClick}
+                    to={backTo}
+                    aria-label={backLabel ? `Retour à ${backLabel}` : 'Retour'}
+                  >
+                    <svg
+                      className={styles.back_arrow_svg}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                      <line x1="19" y1="12" x2="5" y2="12" />
+                      <polyline points="12 19 5 12 12 5" />
                     </svg>
-                  </button>
+                  </Link>
+                )}
+                {showBreadcrumbs && depth > 0 && (
+                  <div className={styles.header_breadcrumbsDesktop}>
+                    <Breadcrumbs items={breadcrumbs} />
+                  </div>
                 )}
               </div>
-            </div>
-          ) : (
-            <NavLink
-              className={styles.back_button}
-              onClick={() => setmainInformationPokemonSelected()}
-              to="/"
-              aria-label="Retour à l'accueil"
-            >
-              <svg 
-                className={styles.back_arrow_svg} 
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2.5" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
+            )}
+          </div>
+
+          {isHome && (
+            <div className={styles.header_center}>
+              <NavLink
+                to="/"
+                onClick={() => setmainInformationPokemonSelected()}
+                className={styles.logo_link}
               >
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-              </svg>
-            </NavLink>
+                <h1 className={styles.header_title}>Poke Project</h1>
+              </NavLink>
+            </div>
           )}
+
+          <div className={styles.header_right}>
+            <div className={styles.header_actions}>
+              <AppNav activeSection={section} />
+              {showCompareAction && (
+                <ButtonLink
+                  to={comparisonUrl}
+                  variant="primary"
+                  size="medium"
+                  onClick={handleCompareClick}
+                  aria-label="Ouvrir l'outil de comparaison"
+                >
+                  Comparer
+                </ButtonLink>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Center Section: Logo / Brand Title */}
-        <div className={styles.header_center}>
-          <NavLink 
-            to="/" 
-            onClick={() => setmainInformationPokemonSelected()} 
-            className={styles.logo_link}
-          >
-            <h1 className={styles.header_title}>Poke Project</h1>
-          </NavLink>
-        </div>
-
-        {/* Right Section: Balanced spacing element */}
-        <div className={styles.header_right}>
-          {!isHome && (
-            <ButtonLink
-              to={comparisonUrl}
-              variant="primary"
-              size="medium"
-              onClick={handleCompareClick}
-              aria-label="Ouvrir l'outil de comparaison"
-            >
-              Comparer
-            </ButtonLink>
-          )}
-        </div>
+        {!isHome && showBreadcrumbs && (
+          <div className={styles.header_bottomRow}>
+            <Breadcrumbs items={breadcrumbs} compact />
+          </div>
+        )}
       </div>
     </header>
   );
 }
-

@@ -1,0 +1,91 @@
+.breadcrumbs {
+  min-width: 0;
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: rgba(25, 25, 25, 0.38);
+  list-style: none;
+}
+
+.separatorIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.link,
+.static,
+.current,
+.ellipsis {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.link {
+  color: rgba(25, 25, 25, 0.62);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--darkred, #d63031);
+}
+
+.link:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--darkred, #d63031) 40%, transparent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.static {
+  color: rgba(25, 25, 25, 0.5);
+}
+
+.current {
+  color: var(--black, #191919);
+  font-weight: 800;
+  max-width: 220px;
+}
+
+.ellipsis {
+  color: rgba(25, 25, 25, 0.45);
+  padding: 0 2px;
+}
+
+@media (max-width: 768px) {
+  .link,
+  .static,
+  .current,
+  .ellipsis {
+    font-size: 0.8rem;
+  }
+
+  .current {
+    max-width: 140px;
+  }
+}

@@ -1,0 +1,82 @@
+.appNav {
+  flex-shrink: 0;
+}
+
+.segmented {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(38, 54, 71, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: rgba(38, 54, 71, 0.72);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.segment:hover {
+  color: var(--black, #191919);
+}
+
+.segment:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--darkred, #d63031) 40%, transparent);
+  outline-offset: 2px;
+}
+
+.segmentActive {
+  color: var(--black, #191919);
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(38, 54, 71, 0.12);
+}
+
+.segmentIcon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.segmentLabel {
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .segment {
+    min-height: 34px;
+    padding: 0 10px;
+  }
+
+  .segmentLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .segment {
+    width: 38px;
+    padding: 0;
+  }
+}
