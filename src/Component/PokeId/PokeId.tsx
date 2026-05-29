@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import { useNavigationContext } from '../Navigation/context/NavigationContext';
 import axios from 'axios';
 import { baseUrl } from '../../utils/apiAndDatabase';
 import { getNameInOtherLanguage } from '../../utils/transform';
@@ -26,7 +27,8 @@ export default function PokeId() {
     color
   } = UseMainContext();
 
-  const {id} = useParams();
+  const { id } = useParams();
+  const { setPageTitle } = useNavigationContext();
   const [pokemon, setpokemon] = useState<PokeType | undefined>()
   console.log('🚀🐱 😻 --///** ~ file: PokeId.tsx:9 ~ PokeId ~ pokemon:', pokemon)
   const [elementDescription, setelementDescription] = useState<flavor_text_entrie[]>([]);
@@ -64,6 +66,17 @@ export default function PokeId() {
     })
 },[id,setpokemon,setisLoading,setmainInformationPokemonSelected]);
 
+  useEffect(() => {
+    if (!pokemon) {
+      return;
+    }
+
+    const displayName = pokemon.friendlyName
+      || getNameInOtherLanguage(pokemon, 'fr')
+      || pokemon.name;
+
+    setPageTitle(displayName);
+  }, [pokemon, setPageTitle]);
 
   return (
     <div>

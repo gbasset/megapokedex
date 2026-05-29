@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import PokeId from './Component/PokeId/PokeId.tsx'
 import HomeContainer from './Component/Home/HomeContainer.tsx'
 import {ContextProvider} from './context/MainContext.jsx'
+import { NavigationProvider } from './Component/Navigation/context/NavigationContext.tsx';
 import ComparisonContainer from './Component/Comparison/ComparisonContainer.tsx'
 import MediaContainer from './Component/Media/MediaContainer.tsx';
 import MediaDetail from './Component/Media/MediaDetail.tsx';
@@ -13,7 +14,7 @@ function App() {
   return (
     <>
     <ContextProvider>
-
+      <NavigationProvider>
          <Header />
 
          <Routes>
@@ -30,6 +31,7 @@ function App() {
             />
             <Route path="/poke-media/:category/:id" element={<MediaDetail />} />
         </Routes>
+      </NavigationProvider>
     </ContextProvider>
       
     </>

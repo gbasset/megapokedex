@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ButtonLink } from '../UI/Button';
+import { useNavigationContext } from '../Navigation/context/NavigationContext';
 import Box from '../UI/Box';
 import { UseMainContext } from '../../context/MainContext';
 import { getNameInOtherLanguage } from '../../utils/transform';
@@ -31,6 +31,7 @@ function formatScore(detail: MediaDetailType): string {
 export default function MediaDetail() {
   const { category, id } = useParams();
   const { pokemonsDetails } = UseMainContext();
+  const { setPageTitle, setPageCategoryLabel } = useNavigationContext();
 
   const isValidRoute = useMemo(() => {
     return isMediaCategory(category) && typeof id === 'string' && /^\d+$/.test(id);
@@ -73,6 +74,15 @@ export default function MediaDetail() {
     return mediaDetail?.videos.find((video) => video.site === 'YouTube' && video.url) ?? mediaDetail?.videos[0] ?? null;
   }, [mediaDetail]);
 
+  useEffect(() => {
+    if (!mediaDetail) {
+      return;
+    }
+
+    setPageTitle(mediaDetail.title);
+    setPageCategoryLabel(CATEGORY_LABELS[mediaDetail.category]);
+  }, [mediaDetail, setPageCategoryLabel, setPageTitle]);
+
   if (isLoading) {
     return (
       <section className={styles.page}>
@@ -90,11 +100,6 @@ export default function MediaDetail() {
         <div className={styles.feedbackCard} role="alert">
           <strong>Impossible d'afficher cette fiche.</strong>
           <span>{errorMessage ?? 'Aucune information disponible.'}</span>
-          <div className={styles.feedbackActions}>
-            <ButtonLink to="/poke-media" variant="secondary" size="medium">
-              Retour a Poke Media
-            </ButtonLink>
-          </div>
         </div>
       </section>
     );
@@ -137,9 +142,6 @@ export default function MediaDetail() {
             </p>
 
             <div className={styles.heroActions}>
-              <ButtonLink to="/poke-media" variant="secondary" size="medium">
-                Retour a Poke Media
-              </ButtonLink>
               <a
                 href={mediaDetail.tmdbUrl}
                 target="_blank"
