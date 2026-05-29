@@ -12,7 +12,7 @@ import styles from './HomeContainer.module.css';
 interface MainContextValue {
   isLoading: boolean;
   searchResults: PokeType[];
-  scrollPosition: number;
+  homeScrollPositionRef: React.MutableRefObject<number>;
   pokemonsDetails: PokeType[];
   comparisonPokemonIds: number[];
   toggleComparisonPokemon: (pokemonId: number) => void;
@@ -23,7 +23,7 @@ export default function HomeContainer() {
     const {				
     isLoading,
     searchResults,
-    scrollPosition,
+    homeScrollPositionRef,
     pokemonsDetails,
     comparisonPokemonIds,
     toggleComparisonPokemon,
@@ -38,11 +38,20 @@ export default function HomeContainer() {
       ? `/comparison?first=${comparisonPokemonIds[0]}&second=${comparisonPokemonIds[1]}`
       : '/comparison';
 
-    useEffect(()=>{
-      if(scrollPosition){
-        window.scrollTo(0, scrollPosition);
+    useEffect(() => {
+      if (isLoading) {
+        return;
       }
-    },[scrollPosition]);
+
+      const savedPosition = homeScrollPositionRef.current;
+      if (savedPosition <= 0) {
+        return;
+      }
+
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: savedPosition, behavior: 'instant' });
+      });
+    }, [isLoading, homeScrollPositionRef]);
   return (
     <>
       <div className={styles.compareTray} aria-live="polite">

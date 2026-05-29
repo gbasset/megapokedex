@@ -4,6 +4,7 @@ import {
     createContext,
     useCallback,
     useMemo,
+    useRef,
     useState,
     useContext,
     useEffect,
@@ -37,7 +38,7 @@ export interface MainContextValue {
     searchTerm: string;
     setSearchTerm: Dispatch<SetStateAction<string>>;
     handleChange: (event: ChangeEvent) => void;
-    scrollPosition: number;
+    homeScrollPositionRef: React.MutableRefObject<number>;
     comparisonPokemonIds: number[];
     toggleComparisonPokemon: (pokemonId: number) => void;
     setComparisonFirstPokemon: (pokemonId: number) => void;
@@ -71,7 +72,7 @@ type PokemonSpeciesFetchResult = PokemonSpeciesFetchSuccess | PokemonSpeciesFetc
 
 export const ContextProvider = ({children}:cxt) => {
     const location = useLocation();
-    const [scrollPosition, setScrollPosition] = useState<number>(0);
+    const homeScrollPositionRef = useRef<number>(0);
     const [color, setcolor] = useState<string>('normal');
     const [mainInformationPokemonSelected, setmainInformationPokemonSelected] = useState<PokeType | undefined>(undefined);
     const [pokemons, setPokemons] = useState<PokemonSpeciesListItem[]>([]);
@@ -190,21 +191,19 @@ export const ContextProvider = ({children}:cxt) => {
         }
     },[pokemons]);
 
-    const handleScroll = useCallback(() => {
-        if(location.pathname === '/' ){
-            const position = window.pageYOffset;
-            if(position !== 0){
-                setScrollPosition(position);
-            }
-        }
-    }, [location.pathname]);
     useEffect(() => {
+        const handleScroll = () => {
+            if (location.pathname === '/') {
+                homeScrollPositionRef.current = window.pageYOffset;
+            }
+        };
+
         window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [handleScroll]);
+    }, [location.pathname]);
 
     const contextValue = useMemo(() => ({
         color,
@@ -221,7 +220,7 @@ export const ContextProvider = ({children}:cxt) => {
         searchTerm,
         setSearchTerm,
         handleChange,
-        scrollPosition,
+        homeScrollPositionRef,
         comparisonPokemonIds,
         toggleComparisonPokemon,
         setComparisonFirstPokemon,
@@ -235,7 +234,7 @@ export const ContextProvider = ({children}:cxt) => {
         searchResults,
         searchTerm,
         handleChange,
-        scrollPosition,
+        homeScrollPositionRef,
         comparisonPokemonIds,
         toggleComparisonPokemon,
         setComparisonFirstPokemon,
