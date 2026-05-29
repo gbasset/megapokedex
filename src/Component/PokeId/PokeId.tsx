@@ -23,10 +23,6 @@ import DecorativeCard from '../UI/DecorativeCard.tsx';
 export default function PokeId() {
   const {
     setmainInformationPokemonSelected,
-    handleChooseShiny,
-    genre,
-    setGenre,
-    isShinny,
     color
   } = UseMainContext();
 
@@ -69,18 +65,6 @@ export default function PokeId() {
 },[id,setpokemon,setisLoading,setmainInformationPokemonSelected]);
 
 
-useEffect(()=> {
-  if(pokemon){
-    if(!pokemon.has_gender_differences){
-      if(genre === 'female'){
-        setGenre('normal')
-      }
-    }
-  }
-},[genre, pokemon,setGenre])
-
-
-
   return (
     <div>
        {isLoading && <PokeLoader />}
@@ -89,10 +73,6 @@ useEffect(()=> {
     {!isLoading && pokemon && (
       <PokemonProfile
         pokemon={pokemon}
-        isShinny={isShinny}
-        genre={genre}
-        handleChooseShiny={handleChooseShiny}
-        setGenre={setGenre}
         color={color}
         hasGenderDifferences={pokemon.has_gender_differences}
       />

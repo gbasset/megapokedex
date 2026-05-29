@@ -3,7 +3,11 @@ import {
   PokemonSpriteCategory,
   PokemonSpriteOption,
 } from '../../types/pokemon-sprites.types';
-import { getDefaultSpriteId } from '../../utils/pokemon-sprites';
+import {
+  findSpriteIdForPreferences,
+  getDefaultSpriteId,
+  parseSpritePreferences,
+} from '../../utils/pokemon-sprites';
 import styles from './PokemonSpritePicker.module.css';
 
 export interface PokemonSpritePickerProps {
@@ -80,6 +84,12 @@ export default function PokemonSpritePicker({
     }
   }, [activeCategory, availableCategories]);
 
+  useEffect(() => {
+    if (selectedSprite) {
+      setActiveCategory(selectedSprite.category);
+    }
+  }, [currentSpriteId, selectedSprite]);
+
   const visibleSprites = spritesByCategory[activeCategory];
 
   const handleSelectSprite = useCallback((sprite: PokemonSpriteOption) => {
@@ -94,13 +104,19 @@ export default function PokemonSpritePicker({
   const handleSelectCategory = useCallback((category: PokemonSpriteCategory) => {
     setActiveCategory(category);
 
-    const categorySprites = spritesByCategory[category];
-    const isCurrentInCategory = categorySprites.some((sprite) => sprite.id === currentSpriteId);
+    const preferences = parseSpritePreferences(currentSpriteId);
+    const nextSpriteId = findSpriteIdForPreferences(sprites, {
+      isShiny: preferences.isShiny,
+      isFemale: preferences.isFemale,
+      category,
+      preferBack: preferences.isBack,
+    });
+    const nextSprite = sprites.find((sprite) => sprite.id === nextSpriteId) ?? spritesByCategory[category][0];
 
-    if (!isCurrentInCategory && categorySprites[0]) {
-      handleSelectSprite(categorySprites[0]);
+    if (nextSprite) {
+      handleSelectSprite(nextSprite);
     }
-  }, [currentSpriteId, handleSelectSprite, spritesByCategory]);
+  }, [currentSpriteId, handleSelectSprite, sprites, spritesByCategory]);
 
   if (!selectedSprite || sprites.length === 0) {
     return null;

@@ -31,10 +31,6 @@ export interface MainContextValue {
     setPokemons: Dispatch<SetStateAction<PokemonSpeciesListItem[]>>;
     pokemonsDetails: PokeType[];
     pokemons: PokemonSpeciesListItem[];
-    handleChooseShiny: () => void;
-    genre: string;
-    setGenre: Dispatch<SetStateAction<string>>;
-    isShinny: boolean;
     isLoading: boolean;
     searchResults: PokeType[];
     setSearchResults: Dispatch<SetStateAction<PokeType[]>>;
@@ -82,8 +78,6 @@ export const ContextProvider = ({children}:cxt) => {
     const [pokemonsDetails, setpokemonsDetails] = useState<Array<PokeType>| []>([]);
     const [isLoading, setisLoading] = useState<boolean>(true);
 	const [searchResults, setSearchResults] = useState<Array<PokeType>>([]);
-    const [genre, setGenre] = useState<string>('normal');
-    const [isShinny, setisShinny] = useState<boolean>(false)
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [comparisonPokemonIds, setComparisonPokemonIds] = useState<number[]>([]);
     const setSelectedPokemonInformation = useCallback((pokemon?: PokeType) => {
@@ -95,10 +89,6 @@ export const ContextProvider = ({children}:cxt) => {
             setSearchTerm(target?.value);
         }
       }, []);
-    const handleChooseShiny = useCallback(() => {
-        setisShinny(!isShinny);
-    }, [isShinny]);
-
     const toggleComparisonPokemon = useCallback((pokemonId: number) => {
         setComparisonPokemonIds(currentIds => {
             if (currentIds.includes(pokemonId)) {
@@ -225,10 +215,6 @@ export const ContextProvider = ({children}:cxt) => {
         setPokemons,
         pokemonsDetails,
         pokemons,
-        handleChooseShiny,
-        genre,
-        setGenre,
-        isShinny,
         isLoading,
         searchResults,
         setSearchResults,
@@ -245,9 +231,6 @@ export const ContextProvider = ({children}:cxt) => {
         mainInformationPokemonSelected,
         pokemonsDetails,
         pokemons,
-        handleChooseShiny,
-        genre,
-        isShinny,
         isLoading,
         searchResults,
         searchTerm,

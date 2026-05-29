@@ -2,7 +2,7 @@ import { useCallback, type AnchorHTMLAttributes, type ButtonHTMLAttributes, type
 import { Link, type LinkProps } from 'react-router-dom';
 import styles from './Button.module.css';
 
-type ButtonVariant = 'primary' | 'secondary' | 'success' | 'ghost';
+type ButtonVariant = 'primary' | 'secondary' | 'success' | 'ghost' | 'shiny' | 'gender' | 'genderFemale';
 type ButtonSize = 'small' | 'medium' | 'large';
 type ButtonShape = 'default' | 'circle';
 

@@ -113,29 +113,92 @@ export function getDefaultArtworkSpriteId(sprites: PokemonSpriteOption[]): strin
     ?? getDefaultSpriteId(sprites);
 }
 
+export interface SpritePreferences {
+  isShiny: boolean;
+  isFemale: boolean;
+  isBack: boolean;
+  category: PokemonSpriteCategory;
+}
+
+export function parseSpritePreferences(spriteId: string): SpritePreferences {
+  const id = spriteId.toLowerCase();
+  let category: PokemonSpriteCategory = 'sprite';
+
+  if (id.startsWith('showdown')) {
+    category = 'animated';
+  } else if (id.startsWith('artwork')) {
+    category = 'artwork';
+  }
+
+  return {
+    isShiny: id.includes('shiny'),
+    isFemale: id.includes('female'),
+    isBack: id.includes('back'),
+    category,
+  };
+}
+
+function spriteMatchesPreferences(sprite: PokemonSpriteOption, options: {
+  isShiny: boolean;
+  isFemale: boolean;
+  preferBack?: boolean;
+}): boolean {
+  const id = sprite.id.toLowerCase();
+  const isBack = id.includes('back');
+
+  if (options.preferBack !== undefined && isBack !== options.preferBack) {
+    return false;
+  }
+
+  return id.includes('shiny') === options.isShiny && id.includes('female') === options.isFemale;
+}
+
 export function findSpriteIdForPreferences(
   sprites: PokemonSpriteOption[],
-  options: { isShiny: boolean; isFemale: boolean; category?: PokemonSpriteCategory },
+  options: {
+    isShiny: boolean;
+    isFemale: boolean;
+    category?: PokemonSpriteCategory;
+    preferBack?: boolean;
+  },
 ): string {
   const pool = options.category
     ? sprites.filter((sprite) => sprite.category === options.category)
     : sprites;
-  const frontSprites = pool.filter((sprite) => !sprite.id.includes('back'));
 
-  const match = frontSprites.find((sprite) => {
-    const id = sprite.id.toLowerCase();
-    const hasShiny = id.includes('shiny');
-    const hasFemale = id.includes('female');
+  const orientedPool = options.preferBack === undefined
+    ? pool.filter((sprite) => !sprite.id.includes('back'))
+    : pool.filter((sprite) => sprite.id.includes('back') === options.preferBack);
 
-    return hasShiny === options.isShiny && hasFemale === options.isFemale;
-  });
+  const searchPool = orientedPool.length > 0
+    ? orientedPool
+    : pool.filter((sprite) => !sprite.id.includes('back'));
 
-  if (match) {
-    return match.id;
+  const exactMatch = searchPool.find((sprite) => spriteMatchesPreferences(sprite, options));
+
+  if (exactMatch) {
+    return exactMatch.id;
+  }
+
+  if (options.isFemale) {
+    const withoutFemale = findSpriteIdForPreferences(sprites, {
+      ...options,
+      isFemale: false,
+    });
+
+    if (withoutFemale) {
+      return withoutFemale;
+    }
   }
 
   if (options.category === 'artwork') {
     return getDefaultArtworkSpriteId(sprites);
+  }
+
+  if (options.category) {
+    const categoryDefault = pool.find((sprite) => !sprite.id.includes('back')) ?? pool[0];
+
+    return categoryDefault?.id ?? getDefaultSpriteId(sprites);
   }
 
   return getDefaultSpriteId(sprites);

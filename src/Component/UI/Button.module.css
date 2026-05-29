@@ -111,6 +111,39 @@
   --button-hover-shadow: 0 12px 24px rgba(38, 54, 71, 0.12);
 }
 
+.shiny {
+  --button-bg: linear-gradient(135deg, #ffe566 0%, #f5c518 52%, #e6a800 100%);
+  --button-color: #5c4200;
+  --button-border: #d4a017;
+  --button-shadow: 0 8px 20px rgba(230, 168, 0, 0.35);
+  --button-hover-bg: linear-gradient(135deg, #fff08a 0%, #ffd633 52%, #f0b429 100%);
+  --button-hover-color: #4a3500;
+  --button-hover-border: #e6b422;
+  --button-hover-shadow: 0 12px 26px rgba(230, 168, 0, 0.42);
+}
+
+.gender {
+  --button-bg: #4a90e8;
+  --button-color: #ffffff;
+  --button-border: #3a7fd4;
+  --button-shadow: 0 8px 18px rgba(74, 144, 232, 0.28);
+  --button-hover-bg: #3a7fd4;
+  --button-hover-color: #ffffff;
+  --button-hover-border: #2f6fbe;
+  --button-hover-shadow: 0 12px 24px rgba(74, 144, 232, 0.34);
+}
+
+.genderFemale {
+  --button-bg: #e85d9a;
+  --button-color: #ffffff;
+  --button-border: #d44a88;
+  --button-shadow: 0 8px 18px rgba(232, 93, 154, 0.28);
+  --button-hover-bg: #d44a88;
+  --button-hover-color: #ffffff;
+  --button-hover-border: #c23d7a;
+  --button-hover-shadow: 0 12px 24px rgba(232, 93, 154, 0.34);
+}
+
 .small {
   min-height: 34px;
   padding: 0 0.9rem;
