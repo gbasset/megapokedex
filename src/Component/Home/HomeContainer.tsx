@@ -1,5 +1,5 @@
 /* eslint-disable no-inner-declarations */
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import Box from '../UI/Box';
 import { Button, ButtonLink } from '../UI/Button';
@@ -19,7 +19,11 @@ interface MainContextValue {
   clearComparisonPokemons: () => void;
 }
 
-export default function HomeContainer() {
+interface HomeContainerProps {
+  isActive?: boolean;
+}
+
+export default function HomeContainer({ isActive = true }: HomeContainerProps) {
     const {				
     isLoading,
     searchResults,
@@ -29,6 +33,31 @@ export default function HomeContainer() {
     toggleComparisonPokemon,
     clearComparisonPokemons
     } = UseMainContext() as MainContextValue;
+    const [isListRendering, setIsListRendering] = useState(false);
+    const hasRenderedListRef = useRef(false);
+
+    useLayoutEffect(() => {
+      if (!isActive || isLoading || searchResults.length === 0) {
+        setIsListRendering(false);
+        return;
+      }
+
+      if (hasRenderedListRef.current) {
+        return;
+      }
+
+      setIsListRendering(true);
+      const frameId = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          hasRenderedListRef.current = true;
+          setIsListRendering(false);
+        });
+      });
+
+      return () => {
+        cancelAnimationFrame(frameId);
+      };
+    }, [isActive, isLoading, searchResults.length]);
 
     const selectedPokemons = comparisonPokemonIds
       .map(id => pokemonsDetails.find((pokemon) => pokemon.id === id))
@@ -39,7 +68,7 @@ export default function HomeContainer() {
       : '/comparison';
 
     useEffect(() => {
-      if (isLoading) {
+      if (!isActive || isLoading) {
         return;
       }
 
@@ -51,7 +80,9 @@ export default function HomeContainer() {
       requestAnimationFrame(() => {
         window.scrollTo({ top: savedPosition, behavior: 'instant' });
       });
-    }, [isLoading, homeScrollPositionRef]);
+    }, [isActive, isLoading, homeScrollPositionRef]);
+
+    const showLoader = isActive && (isLoading || isListRendering);
   return (
     <>
       <div className={styles.compareTray} aria-live="polite">
@@ -80,8 +111,8 @@ export default function HomeContainer() {
         </div>
       </div>
       <div className={styles.pokedexContainer} >
-        {isLoading && <PokeLoader />}
-          {searchResults.map((pokemon:PokeType) => {
+        {showLoader && <PokeLoader />}
+          {!showLoader && searchResults.map((pokemon:PokeType) => {
             const isSelected = comparisonPokemonIds.includes(pokemon.id);
 
             return (
